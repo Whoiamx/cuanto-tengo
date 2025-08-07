@@ -7,7 +7,11 @@ import { TransactionsOverview } from "./TransactionsOverview";
 import Link from "next/link";
 import { CurrencyTicker } from "./CurrencyTiker";
 
+import { useDolarCurrency } from "../hooks/useDolarCurrency";
+
 export function Overview() {
+  const { isLoading, data, error, refetch } = useDolarCurrency();
+
   return (
     <div className="space-y-8">
       <div>
@@ -83,9 +87,15 @@ export function Overview() {
           {/* Otras secciones*/}
         </div>
         <div className="space-y-6">
-          <CurrencyTicker />
-          <CurrencyTicker />
-          <CurrencyTicker />
+          <CurrencyTicker
+            moneda={data?.moneda}
+            nombre={data?.nombre}
+            venta={data?.venta}
+            compra={data?.compra}
+            fechaActualizacion={data?.fechaActualizacion}
+            isLoading={isLoading}
+            refetch={refetch}
+          />
         </div>
       </div>
     </div>
