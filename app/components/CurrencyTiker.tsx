@@ -50,6 +50,8 @@ export function CurrencyTicker({
 
   const [isLoading, setIsLoading] = useState(false);
 
+  //   #TODO: CAMBIAR ESTO A TANSTACK QUERY
+
   // Simular actualizaciones en tiempo real
   useEffect(() => {
     const interval = setInterval(() => {
