@@ -3,6 +3,8 @@ import { Button } from "@/components/ui/button";
 
 import { ChevronRight } from "lucide-react";
 import { Categories } from "./Categories";
+import { TransactionsOverview } from "./TransactionsOverview";
+import Link from "next/link";
 
 export function Overview() {
   return (
@@ -27,7 +29,7 @@ export function Overview() {
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-gray-600">
-              Ingresos
+              Activos
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -53,9 +55,11 @@ export function Overview() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between">
               <CardTitle className="text-xl font-semibold">Ahorros</CardTitle>
-              <Button variant="ghost" size="sm">
-                Ver Detalles <ChevronRight className="ml-1 h-4 w-4" />
-              </Button>
+              <Link href={`/wallet/ahorros`} target="_blank">
+                <Button variant="ghost" size="sm">
+                  Ver Detalles <ChevronRight className="ml-1 h-4 w-4" />
+                </Button>
+              </Link>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center space-x-4">
@@ -69,37 +73,7 @@ export function Overview() {
           </Card>
 
           {/* Transactions */}
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between">
-              <CardTitle className="text-xl font-semibold">
-                Transacciones
-              </CardTitle>
-              <Button variant="ghost" size="sm">
-                Ver Todas <ChevronRight className="ml-1 h-4 w-4" />
-              </Button>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-3">
-                  <div>
-                    <p className="font-medium">Emma Richardson</p>
-                    <p className="text-sm text-gray-500">19 Ago 2024</p>
-                  </div>
-                </div>
-                <span className="font-semibold text-green-600">+$75.50</span>
-              </div>
-
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-3">
-                  <div>
-                    <p className="font-medium">Savory Bites Bistro</p>
-                    <p className="text-sm text-gray-500">19 Ago 2024</p>
-                  </div>
-                </div>
-                <span className="font-semibold text-red-600">-$55.50</span>
-              </div>
-            </CardContent>
-          </Card>
+          <TransactionsOverview />
         </div>
       </div>
     </div>
