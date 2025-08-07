@@ -70,7 +70,7 @@ export function Overview() {
               <div className="flex items-center space-x-4">
                 <div>
                   <p className="text-sm text-gray-600">Total Ahorrado</p>
-                  <p className="text-2xl font-bold">$850</p>
+                  <p className="text-2xl font-bold">$0</p>
                 </div>
               </div>
               <div className="flex flex-col pb-2">
