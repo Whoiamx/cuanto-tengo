@@ -5,6 +5,7 @@ import { ChevronRight } from "lucide-react";
 import { Categories } from "./Categories";
 import { TransactionsOverview } from "./TransactionsOverview";
 import Link from "next/link";
+import { CurrencyTicker } from "./CurrencyTiker";
 
 export function Overview() {
   return (
@@ -14,7 +15,7 @@ export function Overview() {
       </div>
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-3 md:grid-cols-3 gap-6">
         <Card className="bg-slate-900 text-white">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-gray-300">
@@ -49,11 +50,11 @@ export function Overview() {
         </Card>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-2 gap-8">
         {/* Pots Section */}
         <div className="space-y-6">
           <Card>
-            <CardHeader className="flex flex-row items-center justify-between">
+            <CardHeader className="flex  flex-row items-center justify-between">
               <CardTitle className="text-xl font-semibold">Ahorros</CardTitle>
               <Link href={`/wallet/ahorros`} target="_blank">
                 <Button variant="ghost" size="sm">
@@ -68,12 +69,23 @@ export function Overview() {
                   <p className="text-2xl font-bold">$850</p>
                 </div>
               </div>
-              <Categories />
+              <div className="flex flex-col pb-2">
+                <Categories />
+              </div>
+              <Button className=" text-md bg-[#0F172B]">
+                Agregar nuevo activo
+              </Button>
             </CardContent>
           </Card>
 
           {/* Transactions */}
           <TransactionsOverview />
+          {/* Otras secciones*/}
+        </div>
+        <div className="space-y-6">
+          <CurrencyTicker />
+          <CurrencyTicker />
+          <CurrencyTicker />
         </div>
       </div>
     </div>
