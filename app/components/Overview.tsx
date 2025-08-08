@@ -8,9 +8,13 @@ import Link from "next/link";
 import { CurrencyTicker } from "./CurrencyTiker";
 
 import { useDolarCurrency } from "../hooks/useDolarCurrency";
+import { useCriptoCurrency } from "../hooks/useCriptoCurrency";
+import { formatearValor } from "../../lib/utils";
 
 export function Overview() {
   const { isLoading, data, error, refetch } = useDolarCurrency();
+  const criptoData = useCriptoCurrency();
+  console.log(criptoData.isLoading);
 
   return (
     <div className="space-y-8">
@@ -95,6 +99,17 @@ export function Overview() {
             fechaActualizacion={data?.fechaActualizacion}
             isLoading={isLoading}
             refetch={refetch}
+            logo="dolar"
+          />
+          <CurrencyTicker
+            moneda="BITCOIN"
+            nombre="BITCOIN"
+            venta={formatearValor(criptoData.data?.ask)}
+            compra={formatearValor(criptoData.data?.ask)}
+            fechaActualizacion={data?.fechaActualizacion}
+            isLoading={criptoData.isLoading}
+            refetch={refetch}
+            logo="bitcoin"
           />
         </div>
       </div>

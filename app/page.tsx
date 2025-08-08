@@ -16,7 +16,7 @@ export default function Home() {
           <Overview />
         </main>
       </div>
-      <ReactQueryDevtools />
+      <ReactQueryDevtools initialIsOpen />
     </QueryClientProvider>
   );
 }

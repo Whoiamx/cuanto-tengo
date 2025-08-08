@@ -13,6 +13,7 @@ export function CurrencyTicker({
   fechaActualizacion,
   isLoading,
   refetch,
+  logo,
 }: CurrencyData) {
   if (isLoading) {
     return (
@@ -36,7 +37,13 @@ export function CurrencyTicker({
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center">
-              <span className="text-xl font-bold text-blue-600">{moneda}</span>
+              <span
+                className={`text-xl font-bold ${
+                  logo === "bitcoin" ? "text-orange-600" : "text-blue-600"
+                } `}
+              >
+                {moneda}
+              </span>
             </div>
             <div className="flex flex-col gap-2">
               <p className="font-bold text-xl">{moneda}</p>
