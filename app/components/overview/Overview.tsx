@@ -131,7 +131,7 @@ export function Overview() {
             fechaActualizacion={data?.fechaActualizacion}
             isLoading={ethData.isLoading}
             refetch={ethData.refetch}
-            logo="ethereum.avif"
+            logo="ethereum.png"
           />
           <CurrencyTicker
             moneda="SOLANA"
