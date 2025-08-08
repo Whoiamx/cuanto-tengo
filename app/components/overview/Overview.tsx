@@ -7,14 +7,16 @@ import { TransactionsOverview } from "./TransactionsOverview";
 import Link from "next/link";
 import { CurrencyTicker } from "./CurrencyTiker";
 
-import { useDolarCurrency } from "../hooks/useDolarCurrency";
-import { useCriptoCurrency } from "../hooks/useCriptoCurrency";
-import { formatearValor } from "../../lib/utils";
+import { useDolarCurrency } from "../../hooks/useDolarCurrency";
+import { useCriptoCurrency } from "../../hooks/useCriptoCurrency";
+import { formatearValor } from "../../../lib/utils";
 
 export function Overview() {
   const { isLoading, data, error, refetch } = useDolarCurrency();
-  const criptoData = useCriptoCurrency();
-  console.log(criptoData.isLoading);
+  const criptoData = useCriptoCurrency("BTC");
+  const ethData = useCriptoCurrency("ETH");
+  const usdtData = useCriptoCurrency("USDT");
+  console.log(ethData);
 
   return (
     <div className="space-y-8">
@@ -110,6 +112,26 @@ export function Overview() {
             isLoading={criptoData.isLoading}
             refetch={criptoData.refetch}
             logo="bitcoin"
+          />
+          <CurrencyTicker
+            moneda="ETHEREUM"
+            nombre="ETHEREUM"
+            venta={formatearValor(ethData.data?.ask)}
+            compra={formatearValor(ethData.data?.ask)}
+            fechaActualizacion={data?.fechaActualizacion}
+            isLoading={ethData.isLoading}
+            refetch={ethData.refetch}
+            logo="ethereum"
+          />
+          <CurrencyTicker
+            moneda="USDT"
+            nombre="USDT"
+            venta={formatearValor(usdtData.data?.ask)}
+            compra={formatearValor(usdtData.data?.ask)}
+            fechaActualizacion={data?.fechaActualizacion}
+            isLoading={usdtData.isLoading}
+            refetch={usdtData.refetch}
+            logo="USDT"
           />
         </div>
       </div>

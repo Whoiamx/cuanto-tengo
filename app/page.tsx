@@ -1,7 +1,7 @@
 "use client";
 
 import { Sidebar } from "./components/Sidebar";
-import { Overview } from "./components/Overview";
+import { Overview } from "./components/overview/Overview";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 //Creamos el cliente de Tanstack Query

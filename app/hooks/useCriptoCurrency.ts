@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 
-export const useCriptoCurrency = () => {
+export const useCriptoCurrency = (cripto: string) => {
   const getCriptoCurrencyData = async () => {
-    const resp = await fetch("https://criptoya.com/api/BTC/ARS/0.1").then(
+    const resp = await fetch(`https://criptoya.com/api/${cripto}/ARS/0.1`).then(
       (res) => res.json()
     );
 
@@ -10,7 +10,7 @@ export const useCriptoCurrency = () => {
   };
 
   const { isLoading, data, error, refetch } = useQuery({
-    queryKey: ["criptoCurrencyData"],
+    queryKey: ["criptoCurrencyData", cripto],
     queryFn: getCriptoCurrencyData,
   });
 
