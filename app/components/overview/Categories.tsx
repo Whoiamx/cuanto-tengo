@@ -1,9 +1,8 @@
-const options = [
-  { id: 1, label: "Dolares", total: 0 },
-  { id: 2, label: "Criptomonedas", total: 0 },
-  { id: 3, label: "CEDEARS / ACCIONES", total: 0 },
-];
+import { useMoneyCategory } from "@/app/hooks/useMoneyCategory";
+
 export const Categories = () => {
+  const { options } = useMoneyCategory();
+
   return (
     <div className="grid grid-cols-2 gap-4">
       <div className="space-y-2">

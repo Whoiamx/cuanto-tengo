@@ -58,15 +58,15 @@ export function CurrencyTicker({
             {venta ? (
               <div>
                 <p className="text-lg">
-                  Precio venta: <span className="font-bold"> ${venta}</span>
+                  Precio venta: <span className="font-bold"> $ {venta}</span>
                 </p>
                 <p className="text-lg">
-                  Precio compra: <span className="font-bold"> ${compra}</span>
+                  Precio compra: <span className="font-bold"> $ {compra}</span>
                 </p>
               </div>
             ) : (
               <p className="text-lg">
-                Precio compra: <span className="font-bold"> ${compra}</span>
+                Precio compra: <span className="font-bold"> $ {compra}</span>
               </p>
             )}
           </div>

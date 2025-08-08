@@ -10,6 +10,7 @@ import { CurrencyTicker } from "./CurrencyTiker";
 import { useDolarCurrency } from "../../hooks/useDolarCurrency";
 import { useCriptoCurrency } from "../../hooks/useCriptoCurrency";
 import { formatearValor } from "../../../lib/utils";
+import { useStoreFinancial } from "@/app/store/store";
 
 export function Overview() {
   const { isLoading, data, error, refetch } = useDolarCurrency();
@@ -17,6 +18,7 @@ export function Overview() {
   const ethData = useCriptoCurrency("ETH");
   const usdtData = useCriptoCurrency("USDT");
   const solanaData = useCriptoCurrency("SOL");
+  const total = useStoreFinancial((state) => state.total);
 
   return (
     <div className="space-y-8">
@@ -33,7 +35,7 @@ export function Overview() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold">$4,836.00</div>
+            <div className="text-3xl font-bold">$ {total}</div>
           </CardContent>
         </Card>
 
@@ -44,7 +46,7 @@ export function Overview() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-green-600">$3,814.25</div>
+            <div className="text-3xl font-bold text-green-600">$ {total}</div>
           </CardContent>
         </Card>
 
@@ -55,7 +57,7 @@ export function Overview() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold">$1,700.50</div>
+            <div className="text-3xl font-bold">$ 0</div>
           </CardContent>
         </Card>
       </div>
@@ -64,7 +66,7 @@ export function Overview() {
         {/* Pots Section */}
         <div className="space-y-6">
           <Card>
-            <CardHeader className="flex  flex-row items-center justify-between">
+            <CardHeader className="flex  flex-row  items-center justify-between">
               <CardTitle className="text-xl font-semibold">Ahorros</CardTitle>
               <Link href={`/wallet/ahorros`} target="_blank">
                 <Button variant="ghost" size="sm">
@@ -73,10 +75,10 @@ export function Overview() {
               </Link>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="flex items-center space-x-4">
-                <div>
+              <div className="flex gap-2 items-center space-x-4">
+                <div className="flex flex-col gap-2">
                   <p className="text-sm text-gray-600">Total Ahorrado</p>
-                  <p className="text-2xl font-bold">$0</p>
+                  <p className="text-2xl font-bold">$ 0</p>
                 </div>
               </div>
               <div className="flex flex-col pb-2">

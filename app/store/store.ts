@@ -5,12 +5,17 @@ interface FinancialStore {
   ahorros: number;
   cripto: number;
   acciones: number;
+  total: number;
 }
 
-const useStoreFinancial = create<FinancialStore>((set) => ({
+export const useStoreFinancial = create<FinancialStore>((set, get) => ({
   ahorros: 0,
-  dolar: 0,
+  dolar: 200,
   cripto: 0,
   acciones: 0,
-  increasePopulation: () => set((state) => ({ dolar: state.dolar + 1 })),
+
+  get total() {
+    const { ahorros, dolar, cripto, acciones } = get();
+    return ahorros + dolar + cripto + acciones;
+  },
 }));
