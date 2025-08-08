@@ -14,9 +14,11 @@ export function Sidebar() {
   const [currentPage, setCurrentPage] = useState("Overview");
 
   return (
-    <div className="w-82 bg-slate-900 text-white">
+    <div className="w-84 bg-slate-900 text-white">
       <div className="p-6">
-        <h1 className="text-4xl font-extrabold text-nowrap">Cuanto Tengo 💲</h1>
+        <h1 className="text-4xl font-medium text-nowrap">
+          <i>Cuanto Tengo </i>💲
+        </h1>
       </div>
       <nav className="mt-8">
         <ul className="space-y-2 px-4">
