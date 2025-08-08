@@ -108,7 +108,7 @@ export function Overview() {
             compra={formatearValor(criptoData.data?.ask)}
             fechaActualizacion={data?.fechaActualizacion}
             isLoading={criptoData.isLoading}
-            refetch={refetch}
+            refetch={criptoData.refetch}
             logo="bitcoin"
           />
         </div>

@@ -36,14 +36,20 @@ export function CurrencyTicker({
       <CardContent className="p-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center">
-              <span
-                className={`text-xl font-bold ${
-                  logo === "bitcoin" ? "text-orange-600" : "text-blue-600"
-                } `}
-              >
-                {moneda}
-              </span>
+            <div className="w-20 h-20 bg-blue-300 rounded-full flex items-center justify-center">
+              {logo === "bitcoin" ? (
+                <img
+                  src="/btc.avif"
+                  alt="Bitcoin"
+                  className="w-full h-full object-cover rounded-2xl"
+                />
+              ) : (
+                <img
+                  src="/dolar.avif"
+                  alt="Otra moneda"
+                  className="w-full h-full object-cover rounded-2xl"
+                />
+              )}
             </div>
             <div className="flex flex-col gap-2">
               <p className="font-bold text-xl">{moneda}</p>
