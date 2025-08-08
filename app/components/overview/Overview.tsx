@@ -16,7 +16,7 @@ export function Overview() {
   const criptoData = useCriptoCurrency("BTC");
   const ethData = useCriptoCurrency("ETH");
   const usdtData = useCriptoCurrency("USDT");
-  console.log(ethData);
+  const solanaData = useCriptoCurrency("SOL");
 
   return (
     <div className="space-y-8">
@@ -93,6 +93,7 @@ export function Overview() {
           {/* Otras secciones*/}
         </div>
         <div className="space-y-6">
+          <h1 className="text-xl font-semibold">Activos mas comprados</h1>
           <CurrencyTicker
             moneda={data?.moneda}
             nombre={data?.nombre}
@@ -101,27 +102,7 @@ export function Overview() {
             fechaActualizacion={data?.fechaActualizacion}
             isLoading={isLoading}
             refetch={refetch}
-            logo="dolar"
-          />
-          <CurrencyTicker
-            moneda="BITCOIN"
-            nombre="BITCOIN"
-            venta={formatearValor(criptoData.data?.ask)}
-            compra={formatearValor(criptoData.data?.ask)}
-            fechaActualizacion={data?.fechaActualizacion}
-            isLoading={criptoData.isLoading}
-            refetch={criptoData.refetch}
-            logo="bitcoin"
-          />
-          <CurrencyTicker
-            moneda="ETHEREUM"
-            nombre="ETHEREUM"
-            venta={formatearValor(ethData.data?.ask)}
-            compra={formatearValor(ethData.data?.ask)}
-            fechaActualizacion={data?.fechaActualizacion}
-            isLoading={ethData.isLoading}
-            refetch={ethData.refetch}
-            logo="ethereum"
+            logo="dolar.avif"
           />
           <CurrencyTicker
             moneda="USDT"
@@ -131,7 +112,37 @@ export function Overview() {
             fechaActualizacion={data?.fechaActualizacion}
             isLoading={usdtData.isLoading}
             refetch={usdtData.refetch}
-            logo="USDT"
+            logo="usdt.jpeg"
+          />
+          <CurrencyTicker
+            moneda="BITCOIN"
+            nombre="BITCOIN"
+            venta={formatearValor(criptoData.data?.ask)}
+            compra={formatearValor(criptoData.data?.ask)}
+            fechaActualizacion={data?.fechaActualizacion}
+            isLoading={criptoData.isLoading}
+            refetch={criptoData.refetch}
+            logo="btc.avif"
+          />
+          <CurrencyTicker
+            moneda="ETHEREUM"
+            nombre="ETHEREUM"
+            venta={formatearValor(ethData.data?.ask)}
+            compra={formatearValor(ethData.data?.ask)}
+            fechaActualizacion={data?.fechaActualizacion}
+            isLoading={ethData.isLoading}
+            refetch={ethData.refetch}
+            logo="ethereum.avif"
+          />
+          <CurrencyTicker
+            moneda="SOLANA"
+            nombre="SOLANA"
+            venta={formatearValor(solanaData.data?.ask)}
+            compra={formatearValor(solanaData.data?.ask)}
+            fechaActualizacion={data?.fechaActualizacion}
+            isLoading={solanaData.isLoading}
+            refetch={solanaData.refetch}
+            logo="solana.png"
           />
         </div>
       </div>
