@@ -2,16 +2,15 @@ import { create } from "zustand";
 
 interface FinancialStore {
   dolar: number;
-  increasePopulation: () => void;
-  removeAllBears: () => void;
-  updateBears: (newBears: number) => void;
+  ahorros: number;
+  cripto: number;
+  acciones: number;
 }
 
 const useStoreFinancial = create<FinancialStore>((set) => ({
+  ahorros: 0,
   dolar: 0,
   cripto: 0,
   acciones: 0,
   increasePopulation: () => set((state) => ({ dolar: state.dolar + 1 })),
-  removeAllBears: () => set({ dolar: 0 }),
-  updateBears: (newBears) => set({ dolar: newBears }),
 }));

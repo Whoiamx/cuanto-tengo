@@ -107,7 +107,6 @@ export function Overview() {
           <CurrencyTicker
             moneda="USDT"
             nombre="USDT"
-            venta={formatearValor(usdtData.data?.ask)}
             compra={formatearValor(usdtData.data?.ask)}
             fechaActualizacion={data?.fechaActualizacion}
             isLoading={usdtData.isLoading}
@@ -117,7 +116,6 @@ export function Overview() {
           <CurrencyTicker
             moneda="BITCOIN"
             nombre="BITCOIN"
-            venta={formatearValor(criptoData.data?.ask)}
             compra={formatearValor(criptoData.data?.ask)}
             fechaActualizacion={data?.fechaActualizacion}
             isLoading={criptoData.isLoading}
@@ -127,7 +125,6 @@ export function Overview() {
           <CurrencyTicker
             moneda="ETHEREUM"
             nombre="ETHEREUM"
-            venta={formatearValor(ethData.data?.ask)}
             compra={formatearValor(ethData.data?.ask)}
             fechaActualizacion={data?.fechaActualizacion}
             isLoading={ethData.isLoading}
@@ -137,7 +134,6 @@ export function Overview() {
           <CurrencyTicker
             moneda="SOLANA"
             nombre="SOLANA"
-            venta={formatearValor(solanaData.data?.ask)}
             compra={formatearValor(solanaData.data?.ask)}
             fechaActualizacion={data?.fechaActualizacion}
             isLoading={solanaData.isLoading}

@@ -55,12 +55,20 @@ export function CurrencyTicker({
             </div>
           </div>
           <div className="flex flex-col gap-4 justify-center items-center text-right">
-            <p className="text-lg">
-              Precio venta: <span className="font-bold">ARS ${venta}</span>
-            </p>
-            <p className="text-lg">
-              Precio compra: <span className="font-bold">ARS ${compra}</span>
-            </p>
+            {venta ? (
+              <div>
+                <p className="text-lg">
+                  Precio venta: <span className="font-bold"> ${venta}</span>
+                </p>
+                <p className="text-lg">
+                  Precio compra: <span className="font-bold"> ${compra}</span>
+                </p>
+              </div>
+            ) : (
+              <p className="text-lg">
+                Precio compra: <span className="font-bold"> ${compra}</span>
+              </p>
+            )}
           </div>
         </div>
         <p className="pt-8">
