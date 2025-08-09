@@ -11,6 +11,8 @@ import { useDolarCurrency } from "../../hooks/useDolarCurrency";
 import { useCriptoCurrency } from "../../hooks/useCriptoCurrency";
 import { formatearValor } from "../../../lib/utils";
 import { useStoreFinancial } from "@/app/store/store";
+import { useState } from "react";
+import { ModalActivos } from "../ModalActivos";
 
 export function Overview() {
   const { isLoading, data, error, refetch } = useDolarCurrency();
@@ -84,9 +86,7 @@ export function Overview() {
               <div className="flex flex-col pb-2">
                 <Categories />
               </div>
-              <Button className=" text-md bg-[#0F172B]">
-                Agregar nuevo activo
-              </Button>
+              <ModalActivos />
             </CardContent>
           </Card>
 

@@ -24,7 +24,7 @@ export const formatearValor = (valor: number) => {
   return formateado;
 };
 
-// TODO: TRANSFORM BTC TO USD
+// TODO: TRANSFORM CRIPTOS TO USD
 
 // export const criptoToUsd = (valor: number) => {
 //   const formateado = new Intl.NumberFormat("en-US", {
@@ -36,3 +36,5 @@ export const formatearValor = (valor: number) => {
 
 //   return transormToUsd;
 // };
+
+// TODO: TRANSFORM PESOS TO USD
