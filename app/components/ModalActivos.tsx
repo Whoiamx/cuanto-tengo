@@ -79,6 +79,7 @@ export const ModalActivos = ({ trigger, onAssetAdded }: AddAssetModalProps) => {
     currency: "ARS",
     purchaseDate: new Date().toISOString().split("T")[0],
   });
+  const [showActionsInputs, setShowActionsInputs] = useState(false);
 
   const handleInputChange = (field: keyof AssetFormData, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -87,6 +88,11 @@ export const ModalActivos = ({ trigger, onAssetAdded }: AddAssetModalProps) => {
   const handleTypeSelect = (type: string) => {
     setSelectedType(type);
     handleInputChange("type", type);
+    if (type === "stock") {
+      setShowActionsInputs(true);
+    } else {
+      setShowActionsInputs(false);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -105,9 +111,7 @@ export const ModalActivos = ({ trigger, onAssetAdded }: AddAssetModalProps) => {
       type: "",
       amount: "",
       price: "",
-
       currency: "ARS",
-
       purchaseDate: new Date().toISOString().split("T")[0],
     });
     setSelectedType("");
@@ -214,6 +218,15 @@ export const ModalActivos = ({ trigger, onAssetAdded }: AddAssetModalProps) => {
                 </SelectContent>
               </Select>
             </div>
+            {showActionsInputs && (
+              <Label
+                htmlFor="currency"
+                className="text-sm font-medium text-gray-700 text-nowrap"
+              >
+                Valor en USD
+                <Input type="number" />
+              </Label>
+            )}
           </div>
 
           {/* Precio y Cantidad */}
