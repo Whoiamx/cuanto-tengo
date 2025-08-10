@@ -20,6 +20,7 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import { Plus, DollarSign, TrendingUp, Wallet, Coins } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useStoreFinancial } from "../store/store";
 
 interface AssetFormData {
   name: string;
@@ -28,6 +29,7 @@ interface AssetFormData {
   price: string;
   currency: string;
   purchaseDate: string;
+  valueInUSD?: string; // Optional for stocks
 }
 
 interface AddAssetModalProps {
@@ -49,7 +51,7 @@ const assetTypes = [
     color: "bg-orange-100 text-orange-600",
   },
   {
-    value: "cash",
+    value: "dolar",
     label: "Dolares",
     icon: DollarSign,
     color: "bg-gray-100 text-gray-600",
@@ -62,15 +64,22 @@ const assetTypes = [
   },
 ];
 
-const currencies = [
-  { value: "ARS", label: "Peso Argentino (ARS)" },
-  { value: "USD", label: "Dólar Estadounidense (USD)" },
+const currencies = [{ value: "ARS", label: "Peso Argentino (ARS)" }];
+
+const criptoCurrencies = [
+  { value: "BTC", label: "Bitcoin (BTC)" },
+  { value: "ETH", label: "Ethereum (ETH)" },
+  { value: "USDT", label: "Tether (USDT)" },
+  { value: "SOL", label: "Solana (SOL)" },
+  { value: "XRP", label: "Ripple (XRP)" },
 ];
 
 export const ModalActivos = ({ trigger, onAssetAdded }: AddAssetModalProps) => {
   const [open, setOpen] = useState(false);
   const [selectedType, setSelectedType] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showActionsInputs, setShowActionsInputs] = useState(false);
+  const [isCripto, setIsCripto] = useState(false);
   const [formData, setFormData] = useState<AssetFormData>({
     name: "",
     type: "",
@@ -79,7 +88,10 @@ export const ModalActivos = ({ trigger, onAssetAdded }: AddAssetModalProps) => {
     currency: "ARS",
     purchaseDate: new Date().toISOString().split("T")[0],
   });
-  const [showActionsInputs, setShowActionsInputs] = useState(false);
+
+  console.log(formData);
+  const setDolarPlus = useStoreFinancial((state) => state.setDolarAhorro);
+  const setCriptoPlus = useStoreFinancial((state) => state.setCriptoAhorro);
 
   const handleInputChange = (field: keyof AssetFormData, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -88,6 +100,13 @@ export const ModalActivos = ({ trigger, onAssetAdded }: AddAssetModalProps) => {
   const handleTypeSelect = (type: string) => {
     setSelectedType(type);
     handleInputChange("type", type);
+
+    if (type === "crypto") {
+      setIsCripto(true);
+    } else {
+      setIsCripto(false);
+    }
+
     if (type === "stock") {
       setShowActionsInputs(true);
     } else {
@@ -102,21 +121,26 @@ export const ModalActivos = ({ trigger, onAssetAdded }: AddAssetModalProps) => {
     const assetWithTotal = {
       ...formData,
     };
-
     onAssetAdded?.(assetWithTotal);
-
-    // Reset form
-    setFormData({
-      name: "",
-      type: "",
-      amount: "",
-      price: "",
-      currency: "ARS",
-      purchaseDate: new Date().toISOString().split("T")[0],
-    });
     setSelectedType("");
     setIsSubmitting(false);
     setOpen(false);
+
+    switch (formData.type) {
+      case "dolar":
+        const amount = parseFloat(formData.price);
+        setDolarPlus(amount);
+        break;
+      case "cripto":
+        const amountCripto = parseFloat(formData.price);
+        setCriptoPlus("bitcoin", amountCripto);
+        break;
+    }
+
+    if (formData.type === "dolar") {
+      const amount = parseFloat(formData.price);
+      setDolarPlus(amount);
+    }
   };
 
   const selectedAssetType = assetTypes.find(
@@ -141,7 +165,6 @@ export const ModalActivos = ({ trigger, onAssetAdded }: AddAssetModalProps) => {
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Tipo de Activo */}
           <div className="space-y-3">
             <Label className="text-sm font-medium text-gray-700">
               Tipo de Activo *
@@ -180,53 +203,85 @@ export const ModalActivos = ({ trigger, onAssetAdded }: AddAssetModalProps) => {
           {/* Información Básica */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label
-                htmlFor="name"
-                className="text-sm font-medium text-gray-700"
-              >
-                Nombre del Activo *
-              </Label>
-              <Input
-                id="name"
-                placeholder="Ej: Apple Inc., Bitcoin, Departamento..."
-                value={formData.name}
-                onChange={(e) => handleInputChange("name", e.target.value)}
-                required
-              />
+              {formData.type === "stock" || formData.type === "other" ? (
+                <>
+                  <Label
+                    htmlFor="name"
+                    className="text-sm font-medium text-gray-700"
+                  >
+                    Nombre del Activo *
+                  </Label>
+                  <Input
+                    id="name"
+                    placeholder="Ej: Apple Inc., Bitcoin, Departamento..."
+                    value={formData.name}
+                    onChange={(e) => handleInputChange("name", e.target.value)}
+                    required
+                  />
+                </>
+              ) : (
+                <div className="space-y-2">
+                  <Label
+                    htmlFor="currency"
+                    className="text-sm font-medium text-gray-700"
+                  >
+                    Moneda *
+                  </Label>
+                  {isCripto ? (
+                    <Select
+                      value={formData.currency}
+                      onValueChange={(value) =>
+                        handleInputChange("currency", value)
+                      }
+                    >
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {criptoCurrencies.map((currency) => (
+                          <SelectItem
+                            key={currency.value}
+                            value={currency.value}
+                          >
+                            {currency.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  ) : (
+                    <Select
+                      value={formData.currency}
+                      onValueChange={(value) =>
+                        handleInputChange("currency", value)
+                      }
+                    >
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {currencies.map((currency) => (
+                          <SelectItem
+                            key={currency.value}
+                            value={currency.value}
+                          >
+                            {currency.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  )}
+                </div>
+              )}
+              {showActionsInputs && (
+                <Label
+                  htmlFor="currency"
+                  className="text-sm font-medium text-gray-700 text-nowrap"
+                >
+                  Valor en USD
+                  <Input type="number" />
+                </Label>
+              )}
             </div>
-
-            <div className="space-y-2">
-              <Label
-                htmlFor="currency"
-                className="text-sm font-medium text-gray-700"
-              >
-                Moneda *
-              </Label>
-              <Select
-                value={formData.currency}
-                onValueChange={(value) => handleInputChange("currency", value)}
-              >
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {currencies.map((currency) => (
-                    <SelectItem key={currency.value} value={currency.value}>
-                      {currency.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            {showActionsInputs && (
-              <Label
-                htmlFor="currency"
-                className="text-sm font-medium text-gray-700 text-nowrap"
-              >
-                Valor en USD
-                <Input type="number" />
-              </Label>
-            )}
           </div>
 
           {/* Precio y Cantidad */}
@@ -236,7 +291,7 @@ export const ModalActivos = ({ trigger, onAssetAdded }: AddAssetModalProps) => {
                 htmlFor="price"
                 className="text-sm font-medium text-gray-700"
               >
-                Precio por Unidad *
+                Cantidad en ARS
               </Label>
               <Input
                 id="price"
@@ -251,7 +306,7 @@ export const ModalActivos = ({ trigger, onAssetAdded }: AddAssetModalProps) => {
 
             <div className="space-y-2">
               <Label className="text-sm font-medium text-gray-700">
-                Total Calculado
+                Total Calculado en USD
               </Label>
               <div className="h-10 px-3 py-2 bg-gray-50 border rounded-md flex items-center">
                 <span className="font-semibold text-teal-600">Pendiente</span>
@@ -276,48 +331,6 @@ export const ModalActivos = ({ trigger, onAssetAdded }: AddAssetModalProps) => {
               }
             />
           </div>
-
-          {/* Resumen */}
-          {selectedAssetType && formData.name && formData.price && (
-            <Card className="bg-teal-50 border-teal-200">
-              <CardContent className="p-4">
-                <h4 className="font-semibold text-teal-800 mb-2">
-                  Resumen del Activo
-                </h4>
-                <div className="space-y-1 text-sm">
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Tipo:</span>
-                    <span className="font-medium">
-                      {selectedAssetType.label}
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Activo:</span>
-                    <span className="font-medium">{formData.name}</span>
-                  </div>
-
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Precio unitario:</span>
-                    <span className="font-medium">
-                      {new Intl.NumberFormat("es-AR", {
-                        style: "currency",
-                        currency: formData.currency,
-                      }).format(Number.parseFloat(formData.price) || 0)}
-                    </span>
-                  </div>
-                  <div className="flex justify-between border-t pt-1 mt-2">
-                    <span className="font-semibold text-teal-800">Total:</span>
-                    <span className="font-bold text-teal-800">
-                      {/* {new Intl.NumberFormat("es-AR", {
-                        style: "currency",
-                        currency: formData.currency,
-                      }).format(calculateTotal())} */}
-                    </span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          )}
 
           <div className="flex justify-end space-x-3 pt-4">
             <Button

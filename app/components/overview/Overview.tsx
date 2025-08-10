@@ -11,7 +11,7 @@ import { useDolarCurrency } from "../../hooks/useDolarCurrency";
 import { useCriptoCurrency } from "../../hooks/useCriptoCurrency";
 import { formatearValor } from "../../../lib/utils";
 import { useStoreFinancial } from "@/app/store/store";
-import { useState } from "react";
+
 import { ModalActivos } from "../ModalActivos";
 
 export function Overview() {
@@ -20,7 +20,9 @@ export function Overview() {
   const ethData = useCriptoCurrency("ETH");
   const usdtData = useCriptoCurrency("USDT");
   const solanaData = useCriptoCurrency("SOL");
-  const total = useStoreFinancial((state) => state.total);
+  const total = useStoreFinancial(
+    (state) => state.ahorros + state.dolar + state.cripto + state.acciones
+  );
 
   return (
     <div className="space-y-8">
@@ -28,7 +30,6 @@ export function Overview() {
         <h1 className="text-3xl font-bold text-gray-900">Overview</h1>
       </div>
 
-      {/* Summary Cards */}
       <div className="grid grid-cols-3 md:grid-cols-3 gap-6">
         <Card className="bg-slate-900 text-white">
           <CardHeader className="pb-2">
