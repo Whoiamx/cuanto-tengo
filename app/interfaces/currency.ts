@@ -9,3 +9,15 @@ export interface CurrencyData {
   refetch: () => void;
   logo: string;
 }
+
+export interface Ahorros {
+  type: string;
+  name?: string;
+  amount: string;
+  price?: string;
+  symbol: string;
+  hide?: boolean;
+  purchaseDate?: string;
+  currency?: string;
+  valueInUSD?: string;
+}

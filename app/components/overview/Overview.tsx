@@ -1,27 +1,28 @@
+import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-import { ChevronRight } from "lucide-react";
 import { Categories } from "./Categories";
 import { TransactionsOverview } from "./TransactionsOverview";
-import Link from "next/link";
 import { CurrencyTicker } from "./CurrencyTiker";
 
-import { useDolarCurrency } from "../../hooks/useDolarCurrency";
-import { useCriptoCurrency } from "../../hooks/useCriptoCurrency";
+import { useDolarCurrency, useCriptoCurrency } from "@/app/hooks";
+
 import { formatearValor } from "../../../lib/utils";
 import { useStoreFinancial } from "@/app/store/store";
 
 import { ModalActivos } from "../ModalActivos";
 
-export function Overview() {
+export const Overview = () => {
   const { isLoading, data, error, refetch } = useDolarCurrency();
   const criptoData = useCriptoCurrency("BTC");
   const ethData = useCriptoCurrency("ETH");
   const usdtData = useCriptoCurrency("USDT");
   const solanaData = useCriptoCurrency("SOL");
   const total = useStoreFinancial(
-    (state) => state.ahorros + state.dolar + state.cripto + state.acciones
+    (state) =>
+      state.totalAhorros + state.dolar + state.totalCriptos + state.acciones
   );
 
   return (
@@ -147,4 +148,4 @@ export function Overview() {
       </div>
     </div>
   );
-}
+};

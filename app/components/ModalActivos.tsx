@@ -23,14 +23,19 @@ import { cn } from "@/lib/utils";
 
 import { useStoreHooks } from "../store/hooks/useStoreHooks";
 import { useDolarCurrency } from "../hooks/useDolarCurrency";
+import { useModalActions } from "../hooks/useModalActions";
+import { useStoreFinancial } from "../store/store";
 
 interface AssetFormData {
-  name: string;
+  name?: string;
   type: string;
   amount: string;
   currency: string;
   purchaseDate: string;
   valueInUSD?: string;
+  price?: string;
+  symbol?: string;
+  hide?: boolean;
 }
 
 interface AddAssetModalProps {
@@ -76,11 +81,21 @@ const criptoCurrencies = [
 ];
 
 export const ModalActivos = ({ trigger, onAssetAdded }: AddAssetModalProps) => {
-  const [open, setOpen] = useState(false);
-  const [selectedType, setSelectedType] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showActionsInputs, setShowActionsInputs] = useState(false);
-  const [isCripto, setIsCripto] = useState(false);
+  const {
+    open,
+    setOpen,
+    selectedType,
+    setSelectedType,
+    isSubmitting,
+    setIsSubmitting,
+    showActionsInputs,
+    setShowActionsInputs,
+    isCripto,
+    setIsCripto,
+  } = useModalActions();
+
+  const addAhorro = useStoreFinancial((state) => state.setNewAhorro);
+
   const [formData, setFormData] = useState<AssetFormData>({
     name: "",
     type: "",
@@ -89,7 +104,6 @@ export const ModalActivos = ({ trigger, onAssetAdded }: AddAssetModalProps) => {
     purchaseDate: new Date().toISOString().split("T")[0],
   });
 
-  console.log(formData);
   const {
     setDolarPlus,
     setBicoinPlus,
@@ -128,11 +142,14 @@ export const ModalActivos = ({ trigger, onAssetAdded }: AddAssetModalProps) => {
 
     const assetWithTotal = {
       ...formData,
+      valueInUSD: totalUSD,
     };
     onAssetAdded?.(assetWithTotal);
     setSelectedType("");
     setIsSubmitting(false);
     setOpen(false);
+
+    addAhorro(assetWithTotal);
 
     if (formData.type === "dolar") {
       const amount = parseFloat(formData.amount);
@@ -161,6 +178,10 @@ export const ModalActivos = ({ trigger, onAssetAdded }: AddAssetModalProps) => {
       }
     }
   };
+
+  const amountNumber = Number(formData.amount || 0);
+  const ventaNumber = Number(data?.venta || 1);
+  let totalUSD = (amountNumber / ventaNumber).toFixed(2);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -329,11 +350,7 @@ export const ModalActivos = ({ trigger, onAssetAdded }: AddAssetModalProps) => {
                 Total Calculado en USD
               </Label>
               <div className="h-10 px-3 py-2 bg-gray-50 border rounded-md flex items-center">
-                <span className="font-semibold text-teal-600">
-                  {(
-                    Number(formData.amount || 0) / Number(data?.venta || 1)
-                  ).toFixed(2)}
-                </span>
+                <span className="font-semibold text-teal-600">{totalUSD}</span>
               </div>
             </div>
           </div>

@@ -1,31 +1,34 @@
 import { create } from "zustand";
+import { Ahorros } from "../interfaces/currency";
 
 type CriptoStock = "bitcoin" | "ethreum" | "usdt" | "solana" | "xrp";
 interface FinancialStore {
   dolar: number;
-  ahorros: number;
-  cripto: number;
+  totalAhorros: number;
+  totalCriptos: number;
   acciones: number;
   bitcoin: number;
   ethreum: number;
   usdt: number;
   solana: number;
   xrp: number;
-
+  activos: Ahorros[];
   setBitcoinAhorro: (amount: number) => void;
   setSolanaAhorro: (amount: number) => void;
   setUsdtAhorro: (amount: number) => void;
   setEthreumAhorro: (amount: number) => void;
   setXrpAhorro: (amount: number) => void;
   setDolarAhorro: (amount: number) => void;
+  setNewAhorro: (ahorro: Ahorros) => void;
 }
 
 export const useStoreFinancial = create<FinancialStore>((set) => ({
-  ahorros: 0,
+  totalAhorros: 0,
+  activos: [],
 
   dolar: 200,
 
-  cripto: 0,
+  totalCriptos: 0,
   acciones: 0,
   bitcoin: 0,
   ethreum: 0,
@@ -56,6 +59,11 @@ export const useStoreFinancial = create<FinancialStore>((set) => ({
   setBitcoinAhorro: (amount: number) =>
     set((state) => ({
       bitcoin: state.bitcoin + amount,
+    })),
+
+  setNewAhorro: (ahorro: Ahorros) =>
+    set((state) => ({
+      activos: [...state.activos, ahorro],
     })),
 
   setDolarAhorro: (amount: number) =>

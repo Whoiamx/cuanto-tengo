@@ -2,15 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn, formatCurrency, getAssetColor } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Icon } from "lucide-react";
-
-interface CardAhorrosProps {
-  type: string;
-  name: string;
-  amount: number;
-  price: number;
-  symbol: string;
-  hide?: boolean;
-}
+import { Ahorros } from "@/app/interfaces/currency";
 
 export const CardAhorros = ({
   type,
@@ -19,7 +11,9 @@ export const CardAhorros = ({
   price,
   symbol,
   hide,
-}: CardAhorrosProps) => {
+  valueInUSD,
+  currency,
+}: Ahorros) => {
   return (
     <Card className="hover:shadow-lg transition-all duration-200">
       <CardHeader className="pb-4">
@@ -36,7 +30,7 @@ export const CardAhorros = ({
               ) : null}
             </div>
             <div>
-              <CardTitle className="text-xl">{name}</CardTitle>
+              <CardTitle className="text-xl">{type?.toUpperCase()}</CardTitle>
               <div className="flex items-center gap-2 mt-1">
                 <Badge variant="secondary" className="text-xs">
                   {symbol}
@@ -53,18 +47,18 @@ export const CardAhorros = ({
           <div>
             <p className="text-sm text-gray-600">Cantidad en ARS</p>
             <p className="font-semibold text-lg">
-              {hide
+              {/* {hide
                 ? "••••"
                 : amount.toLocaleString("es-AR", {
                     minimumFractionDigits: type === "crypto" ? 4 : 0,
                     maximumFractionDigits: type === "crypto" ? 4 : 0,
-                  })}
+                  })} */}
             </p>
           </div>
           <div>
             <p className="text-sm text-gray-600">Precio Actual</p>
             <p className="font-semibold text-lg">
-              {formatCurrency(price, type === "crypto" ? "USD" : "ARS")}
+              {/* {formatCurrency(price, type === "crypto" ? "USD" : "ARS")} */}
             </p>
           </div>
         </div>
@@ -75,7 +69,7 @@ export const CardAhorros = ({
               💵 Valor en USD:
             </span>
             <span className="font-bold text-green-600 text-lg">
-              {hide ? "••••••" : formatCurrency(1200, "USD")}
+              {hide ? "••••••" : <p>U$ {valueInUSD}</p>}
             </span>
           </div>
           <div className="flex justify-between items-center">
@@ -83,7 +77,7 @@ export const CardAhorros = ({
               🇦🇷 Valor en ARS:
             </span>
             <span className="font-bold text-blue-600 text-lg">
-              {hide ? "••••••" : formatCurrency(1200, "ARS")}
+              {hide ? "••••••" : <p>$ {amount}</p>}
             </span>
           </div>
         </div>

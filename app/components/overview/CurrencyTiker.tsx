@@ -5,7 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { cn, formatearFecha } from "@/lib/utils";
 import { CurrencyData } from "../../interfaces/currency";
 
-export function CurrencyTicker({
+export const CurrencyTicker = ({
   moneda,
   nombre,
   compra,
@@ -14,7 +14,7 @@ export function CurrencyTicker({
   isLoading,
   refetch,
   logo,
-}: CurrencyData) {
+}: CurrencyData) => {
   if (isLoading) {
     return (
       <Card
@@ -77,4 +77,4 @@ export function CurrencyTicker({
       </CardContent>
     </Card>
   );
-}
+};

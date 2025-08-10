@@ -16,6 +16,7 @@ import {
 import { cn } from "@/lib/utils";
 import { ModalActivos } from "@/app/components/ModalActivos";
 import { CardAhorros } from "./components/CardAhorros";
+import { useStoreFinancial } from "@/app/store/store";
 
 interface SavingItem {
   id: string;
@@ -27,48 +28,10 @@ interface SavingItem {
   currentPrice: number;
 }
 
-const mockSavings: SavingItem[] = [
-  {
-    id: "1",
-    name: "Bitcoin",
-    type: "crypto",
-    symbol: "BTC",
-    amount: 0.5,
-    originalCurrency: "BTC",
-    currentPrice: 43250.0,
-  },
-  {
-    id: "2",
-    name: "Dólar Estadounidense",
-    type: "dolar",
-    symbol: "USD",
-    amount: 5000,
-    originalCurrency: "USD",
-    currentPrice: 365.5,
-  },
-  {
-    id: "3",
-    name: "Apple Inc.",
-    type: "stock",
-    symbol: "AAPL",
-    amount: 25,
-    originalCurrency: "USD",
-    currentPrice: 185.25,
-  },
-  {
-    id: "4",
-    name: "Ethereum",
-    type: "crypto",
-    symbol: "ETH",
-    amount: 3.2,
-    originalCurrency: "ETH",
-    currentPrice: 2650.0,
-  },
-];
-
 export const DashboardAhorros = () => {
-  const [savings] = useState<SavingItem[]>(mockSavings);
   const [hideBalances, setHideBalances] = useState(false);
+  const activesInWallet = useStoreFinancial((state) => state.activos);
+  console.log(activesInWallet);
 
   // TODO: PENDIENTE DE USAR FUNCION QUE DEVUELVE ICONOS
   // const getAssetIcon = (type: string, symbol: string) => {
@@ -165,16 +128,18 @@ export const DashboardAhorros = () => {
 
       {/* Lista de Ahorros */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {savings.map((item) => {
+        {activesInWallet?.map((item, index) => {
           return (
             <CardAhorros
-              key={item.id}
+              key={index}
               name={item.name}
               type={item.type}
               amount={item.amount}
-              price={item.currentPrice}
+              price={item.price}
               symbol={item.symbol}
               hide={hideBalances}
+              currency={item.currency}
+              valueInUSD={item.valueInUSD}
             />
           );
         })}
@@ -188,14 +153,11 @@ export const DashboardAhorros = () => {
         <CardContent>
           <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
             {["crypto", "fiat", "stock", "bond", "real-estate"].map((type) => {
-              const typeItems = savings.filter((item) => item.type === type);
-
               const typeNames = {
                 crypto: "Cripto",
                 fiat: "Fiat",
                 stock: "Acciones",
-                bond: "Bonos",
-                "real-estate": "Inmuebles",
+                bond: "Otros",
               };
 
               return (
@@ -210,7 +172,6 @@ export const DashboardAhorros = () => {
                       {type === "fiat" && "💵"}
                       {type === "stock" && "📈"}
                       {type === "bond" && "🏛️"}
-                      {type === "real-estate" && "🏠"}
                     </span>
                   </div>
                   <p className="font-semibold text-sm">
