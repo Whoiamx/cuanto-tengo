@@ -11,13 +11,12 @@ interface FinancialStore {
   usdt: number;
   solana: number;
   xrp: number;
-  // setBitcoinAhorro: (amount: number) => void;
-  // setSolanaAhorro: (amount: number) => void;
-  // setUsdtAhorro: (amount: number) => void;
-  // setEthreumAhorro: (amount: number) => void;
-  // setXrpAhorro: (amount: number) => void;
+  setBitcoinAhorro: (amount: number) => void;
+  setSolanaAhorro: (amount: number) => void;
+  setUsdtAhorro: (amount: number) => void;
+  setEthreumAhorro: (amount: number) => void;
+  setXrpAhorro: (amount: number) => void;
   setDolarAhorro: (amount: number) => void;
-  setCriptoAhorro: (key: CriptoStock, amount: number) => void;
 }
 
 export const useStoreFinancial = create<FinancialStore>((set) => ({
@@ -32,35 +31,30 @@ export const useStoreFinancial = create<FinancialStore>((set) => ({
   solana: 0,
   xrp: 0,
 
-  setCriptoAhorro: (key: CriptoStock, amount: number) =>
+  setEthreumAhorro: (amount: number) =>
     set((state) => ({
-      [key]: (state[key] ?? 0) + amount,
+      ethreum: state.ethreum + amount,
     })),
 
-  // setEthreumAhorro: (amount: number) =>
-  //   set((state) => ({
-  //     ethreum: state.ethreum + amount,
-  //   })),
+  setSolanaAhorro: (amount: number) =>
+    set((state) => ({
+      solana: state.solana + amount,
+    })),
 
-  // setSolanaAhorro: (amount: number) =>
-  //   set((state) => ({
-  //     solana: state.solana + amount,
-  //   })),
+  setUsdtAhorro: (amount: number) =>
+    set((state) => ({
+      usdt: state.usdt + amount,
+    })),
 
-  // setUsdtAhorro: (amount: number) =>
-  //   set((state) => ({
-  //     usdt: state.usdt + amount,
-  //   })),
+  setXrpAhorro: (amount: number) =>
+    set((state) => ({
+      xrp: state.xrp + amount,
+    })),
 
-  // setXrpAhorro: (amount: number) =>
-  //   set((state) => ({
-  //     xrp: state.xrp + amount,
-  //   })),
-
-  // setBitcoinAhorro: (amount: number) =>
-  //   set((state) => ({
-  //     bitcoin: state.bitcoin + amount,
-  //   })),
+  setBitcoinAhorro: (amount: number) =>
+    set((state) => ({
+      bitcoin: state.bitcoin + amount,
+    })),
 
   setDolarAhorro: (amount: number) =>
     set((state) => ({

@@ -26,10 +26,9 @@ interface AssetFormData {
   name: string;
   type: string;
   amount: string;
-  price: string;
   currency: string;
   purchaseDate: string;
-  valueInUSD?: string; // Optional for stocks
+  valueInUSD?: string;
 }
 
 interface AddAssetModalProps {
@@ -67,11 +66,11 @@ const assetTypes = [
 const currencies = [{ value: "ARS", label: "Peso Argentino (ARS)" }];
 
 const criptoCurrencies = [
-  { value: "BTC", label: "Bitcoin (BTC)" },
-  { value: "ETH", label: "Ethereum (ETH)" },
-  { value: "USDT", label: "Tether (USDT)" },
-  { value: "SOL", label: "Solana (SOL)" },
-  { value: "XRP", label: "Ripple (XRP)" },
+  { value: "bitcoin", label: "Bitcoin (BTC)" },
+  { value: "ethreum", label: "Ethereum (ETH)" },
+  { value: "usdt", label: "Tether (USDT)" },
+  { value: "solana", label: "Solana (SOL)" },
+  { value: "xrp", label: "Ripple (XRP)" },
 ];
 
 export const ModalActivos = ({ trigger, onAssetAdded }: AddAssetModalProps) => {
@@ -84,14 +83,15 @@ export const ModalActivos = ({ trigger, onAssetAdded }: AddAssetModalProps) => {
     name: "",
     type: "",
     amount: "",
-    price: "",
     currency: "ARS",
     purchaseDate: new Date().toISOString().split("T")[0],
   });
+  const totalBitcoin = useStoreFinancial((state) => state.bitcoin);
+  console.log(totalBitcoin);
 
   console.log(formData);
   const setDolarPlus = useStoreFinancial((state) => state.setDolarAhorro);
-  const setCriptoPlus = useStoreFinancial((state) => state.setCriptoAhorro);
+  const setBicoinPlus = useStoreFinancial((state) => state.setBitcoinAhorro);
 
   const handleInputChange = (field: keyof AssetFormData, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -126,20 +126,16 @@ export const ModalActivos = ({ trigger, onAssetAdded }: AddAssetModalProps) => {
     setIsSubmitting(false);
     setOpen(false);
 
-    switch (formData.type) {
-      case "dolar":
-        const amount = parseFloat(formData.price);
-        setDolarPlus(amount);
-        break;
-      case "cripto":
-        const amountCripto = parseFloat(formData.price);
-        setCriptoPlus("bitcoin", amountCripto);
-        break;
+    if (formData.type === "dolar") {
+      const amount = parseFloat(formData.amount);
+      setDolarPlus(amount);
     }
 
-    if (formData.type === "dolar") {
-      const amount = parseFloat(formData.price);
-      setDolarPlus(amount);
+    // #TODO:Hacer un switch case para las criptos teniendo en cuenta el formData.currency y el formData.type
+
+    if (formData.type === "crypto" && formData.currency === "bitcoin") {
+      const amountCripto = parseFloat(formData.amount);
+      setBicoinPlus(amountCripto);
     }
   };
 
@@ -298,8 +294,8 @@ export const ModalActivos = ({ trigger, onAssetAdded }: AddAssetModalProps) => {
                 type="number"
                 step="0.01"
                 placeholder="0.00"
-                value={formData.price}
-                onChange={(e) => handleInputChange("price", e.target.value)}
+                value={formData.amount}
+                onChange={(e) => handleInputChange("amount", e.target.value)}
                 required
               />
             </div>
@@ -344,12 +340,7 @@ export const ModalActivos = ({ trigger, onAssetAdded }: AddAssetModalProps) => {
             <Button
               type="submit"
               className="bg-teal-600 hover:bg-teal-700"
-              disabled={
-                isSubmitting ||
-                !formData.name ||
-                !formData.type ||
-                !formData.price
-              }
+              disabled={isSubmitting || !formData.type || !formData.amount}
             >
               {isSubmitting ? "Agregando..." : "Agregar Activo"}
             </Button>
