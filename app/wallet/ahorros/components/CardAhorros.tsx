@@ -1,8 +1,9 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { cn, formatCurrency, getAssetColor } from "@/lib/utils";
+import { cn, getAssetColor } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
-import { Icon } from "lucide-react";
+
 import { Ahorros } from "@/app/interfaces/currency";
+import { Bitcoin, DollarSign, TrendingUp, Landmark } from "lucide-react";
 
 export const CardAhorros = ({
   type,
@@ -14,6 +15,27 @@ export const CardAhorros = ({
   valueInUSD,
   currency,
 }: Ahorros) => {
+  const getAssetIcon = (type: string, symbol?: string) => {
+    switch (type) {
+      case "crypto":
+        if (symbol === "BTC") return <Bitcoin />;
+
+        return <span>₿</span>;
+
+      case "dolar":
+        return <DollarSign />;
+
+      case "stock":
+        return <TrendingUp />;
+
+      case "other":
+        return <Landmark />;
+
+      default:
+        return null;
+    }
+  };
+
   return (
     <Card className="hover:shadow-lg transition-all duration-200">
       <CardHeader className="pb-4">
@@ -25,15 +47,13 @@ export const CardAhorros = ({
                 getAssetColor(type)
               )}
             >
-              {typeof Icon === "string" ? (
-                <span className="text-xl">{Icon}</span>
-              ) : null}
+              {getAssetIcon(type, symbol)}
             </div>
             <div>
               <CardTitle className="text-xl">{type?.toUpperCase()}</CardTitle>
               <div className="flex items-center gap-2 mt-1">
-                <Badge variant="secondary" className="text-xs">
-                  {symbol}
+                <Badge variant="secondary" className="text-md">
+                  {currency?.toUpperCase()}
                 </Badge>
               </div>
             </div>
@@ -45,21 +65,12 @@ export const CardAhorros = ({
         {/* Cantidad y Precio */}
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <p className="text-sm text-gray-600">Cantidad en ARS</p>
-            <p className="font-semibold text-lg">
-              {/* {hide
-                ? "••••"
-                : amount.toLocaleString("es-AR", {
-                    minimumFractionDigits: type === "crypto" ? 4 : 0,
-                    maximumFractionDigits: type === "crypto" ? 4 : 0,
-                  })} */}
-            </p>
+            <p className="text-sm text-gray-600">Precio en ARS</p>
+            <p className="font-semibold text-lg">123</p>
           </div>
           <div>
-            <p className="text-sm text-gray-600">Precio Actual</p>
-            <p className="font-semibold text-lg">
-              {/* {formatCurrency(price, type === "crypto" ? "USD" : "ARS")} */}
-            </p>
+            <p className="text-sm text-gray-600">Precio en USD</p>
+            <p className="font-semibold text-lg">1232</p>
           </div>
         </div>
         {/* Valores en diferentes monedas */}

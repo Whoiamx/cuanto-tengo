@@ -74,7 +74,7 @@ const currencies = [{ value: "ARS", label: "Peso Argentino (ARS)" }];
 
 const criptoCurrencies = [
   { value: "bitcoin", label: "Bitcoin (BTC)" },
-  { value: "ethreum", label: "Ethereum (ETH)" },
+  { value: "ethereum", label: "Ethereum (ETH)" },
   { value: "usdt", label: "Tether (USDT)" },
   { value: "solana", label: "Solana (SOL)" },
   { value: "xrp", label: "Ripple (XRP)" },

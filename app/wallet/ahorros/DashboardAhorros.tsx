@@ -5,7 +5,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
 import {
-  TrendingUp,
   DollarSign,
   Bitcoin,
   Building,
@@ -32,24 +31,6 @@ export const DashboardAhorros = () => {
   const [hideBalances, setHideBalances] = useState(false);
   const activesInWallet = useStoreFinancial((state) => state.activos);
   console.log(activesInWallet);
-
-  // TODO: PENDIENTE DE USAR FUNCION QUE DEVUELVE ICONOS
-  // const getAssetIcon = (type: string, symbol: string) => {
-  //   switch (type) {
-  //     case "crypto":
-  //       return symbol === "BTC" ? Bitcoin : "₿";
-  //     case "fiat":
-  //       return DollarSign;
-  //     case "stock":
-  //       return TrendingUp;
-  //     case "bond":
-  //       return Landmark;
-  //     case "real-estate":
-  //       return Building;
-  //     default:
-  //       return DollarSign;
-  //   }
-  // };
 
   return (
     <div className="space-y-8">
