@@ -24,17 +24,27 @@ export const formatearValor = (valor: number) => {
   return formateado;
 };
 
-// TODO: TRANSFORM CRIPTOS TO USD
-
-// export const criptoToUsd = (valor: number) => {
-//   const formateado = new Intl.NumberFormat("en-US", {
-//     minimumFractionDigits: 2,
-//     maximumFractionDigits: 2,
-//   }).format(valor);
-
-// const transformToUsd = formateado /
-
-//   return transormToUsd;
-// };
-
-// TODO: TRANSFORM PESOS TO USD
+export const formatCurrency = (amount: number, currency: string) => {
+  return new Intl.NumberFormat("es-AR", {
+    style: "currency",
+    currency: currency,
+    minimumFractionDigits: currency === "ARS" ? 0 : 2,
+    maximumFractionDigits: currency === "ARS" ? 0 : 2,
+  }).format(amount);
+};
+export const getAssetColor = (type: string) => {
+  switch (type) {
+    case "crypto":
+      return "bg-orange-100 text-orange-600 border-orange-200";
+    case "fiat":
+      return "bg-green-100 text-green-600 border-green-200";
+    case "stock":
+      return "bg-blue-100 text-blue-600 border-blue-200";
+    case "bond":
+      return "bg-purple-100 text-purple-600 border-purple-200";
+    case "real-estate":
+      return "bg-indigo-100 text-indigo-600 border-indigo-200";
+    default:
+      return "bg-gray-100 text-gray-600 border-gray-200";
+  }
+};

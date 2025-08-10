@@ -1,17 +1,18 @@
 "use client";
 
-import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Home, ArrowUpDown, Wallet } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const navigation = [
-  { name: "Overview", icon: Home, current: true },
-  { name: "Transacciones", icon: ArrowUpDown, current: false },
-  { name: "Ahorros", icon: Wallet, current: false },
+  { name: "Overview", icon: Home, route: "/" },
+  { name: "Transacciones", icon: ArrowUpDown, route: "/wallet/transactions" },
+  { name: "Ahorros", icon: Wallet, route: "/wallet/ahorros" },
 ];
 
 export function Sidebar() {
-  const [currentPage, setCurrentPage] = useState("Overview");
+  const pathname = usePathname();
 
   return (
     <div className="w-84 bg-slate-900 text-white">
@@ -24,11 +25,12 @@ export function Sidebar() {
         <ul className="space-y-2 px-4">
           {navigation.map((item) => {
             const Icon = item.icon;
-            const isActive = item.name === currentPage;
+            const isActive = pathname === item.route;
+
             return (
               <li key={item.name}>
-                <button
-                  onClick={() => setCurrentPage(item.name)}
+                <Link
+                  href={item.route}
                   className={cn(
                     "w-full flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors",
                     isActive
@@ -38,7 +40,7 @@ export function Sidebar() {
                 >
                   <Icon className="mr-3 h-5 w-5" />
                   {item.name}
-                </button>
+                </Link>
               </li>
             );
           })}
