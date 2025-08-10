@@ -1,9 +1,15 @@
-// #TODO: Se debe mostrar los ahorros con detalle de cada ahorro y la suma total de los ahorros con la suma en pesos y en dolares de todos los ahorros
+import { DashboardAhorros } from "@/app/components/ahorros/DashboardAhorros";
+import { Sidebar } from "@/app/components/Sidebar";
 
 export default function AhorrosPage() {
   return (
     <div>
-      <h1>Hello AhorrosPage</h1>
+      <div className="flex min-h-screen bg-gray-50">
+        <Sidebar />
+        <main className="flex-1 p-8">
+          <DashboardAhorros />
+        </main>
+      </div>
     </div>
   );
 }

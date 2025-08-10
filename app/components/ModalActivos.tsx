@@ -22,6 +22,7 @@ import { Plus, DollarSign, TrendingUp, Wallet, Coins } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 import { useStoreHooks } from "../store/hooks/useStoreHooks";
+import { useDolarCurrency } from "../hooks/useDolarCurrency";
 
 interface AssetFormData {
   name: string;
@@ -97,6 +98,8 @@ export const ModalActivos = ({ trigger, onAssetAdded }: AddAssetModalProps) => {
     setXrpPlus,
     setUsdtPlus,
   } = useStoreHooks();
+
+  const { data } = useDolarCurrency();
 
   const handleInputChange = (field: keyof AssetFormData, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -223,9 +226,14 @@ export const ModalActivos = ({ trigger, onAssetAdded }: AddAssetModalProps) => {
                   >
                     Nombre del Activo *
                   </Label>
+
                   <Input
                     id="name"
-                    placeholder="Ej: Apple Inc., Bitcoin, Departamento..."
+                    placeholder={`${
+                      formData.type === "other"
+                        ? "Ej: Oro, Plata, Propiedad..."
+                        : "Ej: Apple Inc., NVIDIA, AMD..."
+                    }`}
                     value={formData.name}
                     onChange={(e) => handleInputChange("name", e.target.value)}
                     required
@@ -321,7 +329,11 @@ export const ModalActivos = ({ trigger, onAssetAdded }: AddAssetModalProps) => {
                 Total Calculado en USD
               </Label>
               <div className="h-10 px-3 py-2 bg-gray-50 border rounded-md flex items-center">
-                <span className="font-semibold text-teal-600">Pendiente</span>
+                <span className="font-semibold text-teal-600">
+                  {(
+                    Number(formData.amount || 0) / Number(data?.venta || 1)
+                  ).toFixed(2)}
+                </span>
               </div>
             </div>
           </div>
