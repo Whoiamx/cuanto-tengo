@@ -11,6 +11,7 @@ interface FinancialStore {
   usdt: number;
   solana: number;
   xrp: number;
+
   setBitcoinAhorro: (amount: number) => void;
   setSolanaAhorro: (amount: number) => void;
   setUsdtAhorro: (amount: number) => void;
@@ -23,6 +24,7 @@ export const useStoreFinancial = create<FinancialStore>((set) => ({
   ahorros: 0,
 
   dolar: 200,
+
   cripto: 0,
   acciones: 0,
   bitcoin: 0,

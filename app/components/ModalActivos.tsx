@@ -20,7 +20,8 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import { Plus, DollarSign, TrendingUp, Wallet, Coins } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useStoreFinancial } from "../store/store";
+
+import { useStoreHooks } from "../store/hooks/useStoreHooks";
 
 interface AssetFormData {
   name: string;
@@ -86,12 +87,16 @@ export const ModalActivos = ({ trigger, onAssetAdded }: AddAssetModalProps) => {
     currency: "ARS",
     purchaseDate: new Date().toISOString().split("T")[0],
   });
-  const totalBitcoin = useStoreFinancial((state) => state.bitcoin);
-  console.log(totalBitcoin);
 
   console.log(formData);
-  const setDolarPlus = useStoreFinancial((state) => state.setDolarAhorro);
-  const setBicoinPlus = useStoreFinancial((state) => state.setBitcoinAhorro);
+  const {
+    setDolarPlus,
+    setBicoinPlus,
+    setEthereumPlus,
+    setSolanaPlus,
+    setXrpPlus,
+    setUsdtPlus,
+  } = useStoreHooks();
 
   const handleInputChange = (field: keyof AssetFormData, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -131,17 +136,28 @@ export const ModalActivos = ({ trigger, onAssetAdded }: AddAssetModalProps) => {
       setDolarPlus(amount);
     }
 
-    // #TODO:Hacer un switch case para las criptos teniendo en cuenta el formData.currency y el formData.type
-
-    if (formData.type === "crypto" && formData.currency === "bitcoin") {
+    if (formData.type === "crypto") {
       const amountCripto = parseFloat(formData.amount);
-      setBicoinPlus(amountCripto);
+
+      switch (formData.currency) {
+        case "bitcoin":
+          setBicoinPlus(amountCripto);
+          break;
+        case "ethreum":
+          setEthereumPlus(amountCripto);
+          break;
+        case "usdt":
+          setUsdtPlus(amountCripto);
+          break;
+        case "solana":
+          setSolanaPlus(amountCripto);
+          break;
+        case "xrp":
+          setXrpPlus(amountCripto);
+          break;
+      }
     }
   };
-
-  const selectedAssetType = assetTypes.find(
-    (type) => type.value === selectedType
-  );
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
