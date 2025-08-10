@@ -25,7 +25,7 @@ export const CardAhorros = ({
       case "dolar":
         return <DollarSign />;
 
-      case "stock":
+      case "accion":
         return <TrendingUp />;
 
       case "other":
@@ -53,7 +53,7 @@ export const CardAhorros = ({
               <CardTitle className="text-xl">{type?.toUpperCase()}</CardTitle>
               <div className="flex items-center gap-2 mt-1">
                 <Badge variant="secondary" className="text-md">
-                  {currency?.toUpperCase()}
+                  {name?.length ? name : currency?.toUpperCase()}
                 </Badge>
               </div>
             </div>

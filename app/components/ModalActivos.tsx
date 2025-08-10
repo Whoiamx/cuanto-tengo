@@ -45,7 +45,7 @@ interface AddAssetModalProps {
 
 const assetTypes = [
   {
-    value: "stock",
+    value: "accion",
     label: "Acciones",
     icon: TrendingUp,
     color: "bg-blue-100 text-blue-600",
@@ -88,8 +88,6 @@ export const ModalActivos = ({ trigger, onAssetAdded }: AddAssetModalProps) => {
     setSelectedType,
     isSubmitting,
     setIsSubmitting,
-    showActionsInputs,
-    setShowActionsInputs,
     isCripto,
     setIsCripto,
   } = useModalActions();
@@ -100,7 +98,7 @@ export const ModalActivos = ({ trigger, onAssetAdded }: AddAssetModalProps) => {
     name: "",
     type: "",
     amount: "",
-    currency: "ARS",
+    currency: "USD",
     purchaseDate: new Date().toISOString().split("T")[0],
   });
 
@@ -127,12 +125,6 @@ export const ModalActivos = ({ trigger, onAssetAdded }: AddAssetModalProps) => {
       setIsCripto(true);
     } else {
       setIsCripto(false);
-    }
-
-    if (type === "stock") {
-      setShowActionsInputs(true);
-    } else {
-      setShowActionsInputs(false);
     }
   };
 
@@ -239,7 +231,7 @@ export const ModalActivos = ({ trigger, onAssetAdded }: AddAssetModalProps) => {
           {/* Información Básica */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              {formData.type === "stock" || formData.type === "other" ? (
+              {formData.type === "accion" || formData.type === "other" ? (
                 <>
                   <Label
                     htmlFor="name"
@@ -312,15 +304,6 @@ export const ModalActivos = ({ trigger, onAssetAdded }: AddAssetModalProps) => {
                     </Select>
                   )}
                 </div>
-              )}
-              {showActionsInputs && (
-                <Label
-                  htmlFor="currency"
-                  className="text-sm font-medium text-gray-700 text-nowrap"
-                >
-                  Valor en USD
-                  <Input type="number" />
-                </Label>
               )}
             </div>
           </div>

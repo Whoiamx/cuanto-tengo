@@ -20,7 +20,7 @@ import { useStoreFinancial } from "@/app/store/store";
 interface SavingItem {
   id: string;
   name: string;
-  type: "crypto" | "dolar" | "stock" | "bond" | "real-estate";
+  type: "crypto" | "dolar" | "accion" | "bond" | "real-estate";
   symbol: string;
   amount: number;
   originalCurrency: string;
@@ -133,11 +133,11 @@ export const DashboardAhorros = () => {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-            {["crypto", "fiat", "stock", "bond", "real-estate"].map((type) => {
+            {["crypto", "fiat", "accion", "bond", "real-estate"].map((type) => {
               const typeNames = {
                 crypto: "Cripto",
                 fiat: "Fiat",
-                stock: "Acciones",
+                accion: "Acciones",
                 bond: "Otros",
               };
 
@@ -151,7 +151,7 @@ export const DashboardAhorros = () => {
                     <span className="text-2xl">
                       {type === "crypto" && "₿"}
                       {type === "fiat" && "💵"}
-                      {type === "stock" && "📈"}
+                      {type === "accion" && "📈"}
                       {type === "bond" && "🏛️"}
                     </span>
                   </div>
