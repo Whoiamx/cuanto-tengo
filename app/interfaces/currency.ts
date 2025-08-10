@@ -15,7 +15,7 @@ export interface Ahorros {
   name?: string;
   amount: string;
   price?: string;
-  symbol: string;
+  symbol?: string;
   hide?: boolean;
   purchaseDate?: string;
   currency?: string;
