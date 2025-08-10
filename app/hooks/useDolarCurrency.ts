@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { CurrencyData } from "../interfaces/currency";
+import { CurrencyData } from "../interfaces/app-financial";
 
 export const useDolarCurrency = () => {
   const getCurrencyDataDolar = async () => {

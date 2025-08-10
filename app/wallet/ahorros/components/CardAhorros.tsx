@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn, getAssetColor } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 
-import { Ahorros } from "@/app/interfaces/currency";
+import { Ahorros } from "@/app/interfaces/app-financial";
 import { Bitcoin, DollarSign, TrendingUp, Landmark } from "lucide-react";
 
 export const CardAhorros = ({

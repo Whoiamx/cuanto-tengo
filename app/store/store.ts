@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { Ahorros } from "../interfaces/currency";
+import { Ahorros } from "../interfaces/app-financial";
 
 type CriptoStock = "bitcoin" | "ethreum" | "usdt" | "solana" | "xrp";
 interface FinancialStore {

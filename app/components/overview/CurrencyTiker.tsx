@@ -3,7 +3,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 
 import { cn, formatearFecha } from "@/lib/utils";
-import { CurrencyData } from "../../interfaces/currency";
+import { CurrencyData } from "../../interfaces/app-financial";
 
 export const CurrencyTicker = ({
   moneda,
