@@ -4,33 +4,26 @@ import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
-import {
-  DollarSign,
-  Bitcoin,
-  Building,
-  Landmark,
-  Eye,
-  EyeOff,
-} from "lucide-react";
+import { DollarSign, Eye, EyeOff } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ModalActivos } from "@/app/components/ModalActivos";
 import { CardAhorros } from "./components/CardAhorros";
 import { useStoreFinancial } from "@/app/store/store";
-
-interface SavingItem {
-  id: string;
-  name: string;
-  type: "crypto" | "dolar" | "accion" | "bond" | "real-estate";
-  symbol: string;
-  amount: number;
-  originalCurrency: string;
-  currentPrice: number;
-}
+import { useDolarCurrency } from "@/app/hooks";
 
 export const DashboardAhorros = () => {
   const [hideBalances, setHideBalances] = useState(false);
   const activesInWallet = useStoreFinancial((state) => state.activos);
   console.log(activesInWallet);
+  const total = useStoreFinancial(
+    (state) =>
+      state.totalAhorros + state.dolar + state.totalCriptos + state.acciones
+  );
+  const { data } = useDolarCurrency();
+
+  const amountNumber = Number(total || 0);
+  const ventaNumber = Number(data?.venta || 1);
+  let totalUSD = (amountNumber / ventaNumber).toFixed(2);
 
   return (
     <div className="space-y-8">
@@ -68,7 +61,7 @@ export const DashboardAhorros = () => {
               <div>
                 <p className="text-teal-100 text-sm">Valor Total</p>
                 <p className="text-3xl font-bold">
-                  {hideBalances ? "••••••" : null}
+                  {hideBalances ? "••••••" : total}
                 </p>
               </div>
               <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
@@ -84,7 +77,7 @@ export const DashboardAhorros = () => {
               <div>
                 <p className="text-gray-600 text-sm">En Pesos Argentinos</p>
                 <p className="text-2xl font-bold text-blue-600">
-                  {hideBalances ? "••••••" : null}
+                  {hideBalances ? "••••••" : <p> $ {total}</p>}
                 </p>
               </div>
               <div className="text-2xl">🇦🇷</div>
@@ -98,7 +91,7 @@ export const DashboardAhorros = () => {
               <div>
                 <p className="text-gray-600 text-sm">En Dólares</p>
                 <p className="text-2xl font-bold text-green-600">
-                  {hideBalances ? "••••••" : null}
+                  {hideBalances ? "••••••" : <p> US {totalUSD}</p>}
                 </p>
               </div>
               <div className="text-2xl">🇺🇸</div>
