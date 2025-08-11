@@ -53,7 +53,7 @@ export const Overview = () => {
               <div className="flex gap-2 items-center space-x-4">
                 <div className="flex flex-col gap-2">
                   <p className="text-sm text-gray-600">Total Ahorrado</p>
-                  <p className="text-2xl font-bold">$ 0</p>
+                  <p className="text-2xl font-bold">$ {total}</p>
                 </div>
               </div>
               <div className="flex flex-col pb-2">

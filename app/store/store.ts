@@ -13,6 +13,7 @@ interface FinancialStore {
   xrp: number;
   activos: Ahorros[];
   otros: OtrosActive[];
+  transactions: Ahorros[];
   setBitcoinAhorro: (amount: number) => void;
   setSolanaAhorro: (amount: number) => void;
   setUsdtAhorro: (amount: number) => void;
@@ -25,6 +26,7 @@ interface FinancialStore {
 export const useStoreFinancial = create<FinancialStore>((set) => ({
   totalAhorros: 0,
   activos: [],
+  transactions: [],
 
   dolar: 200,
   totalCriptos: 0,

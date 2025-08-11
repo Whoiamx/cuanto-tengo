@@ -24,16 +24,6 @@ export const TransactionsOverview = () => {
           </div>
           <span className="font-semibold text-green-600">+$75.50</span>
         </div>
-
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <div>
-              <p className="font-medium">Savory Bites Bistro</p>
-              <p className="text-sm text-gray-500">19 Ago 2024</p>
-            </div>
-          </div>
-          <span className="font-semibold text-red-600">-$55.50</span>
-        </div>
       </CardContent>
     </Card>
   );
