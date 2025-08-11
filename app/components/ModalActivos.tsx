@@ -29,7 +29,7 @@ import { useStoreFinancial } from "../store/store";
 interface AssetFormData {
   name?: string;
   type: string;
-  amount: string;
+  amount: number;
   currency: string;
   purchaseDate: string;
   valueInUSD?: string;
@@ -97,7 +97,7 @@ export const ModalActivos = ({ trigger, onAssetAdded }: AddAssetModalProps) => {
   const [formData, setFormData] = useState<AssetFormData>({
     name: "",
     type: "",
-    amount: "",
+    amount: 0,
     currency: "USD",
     purchaseDate: new Date().toISOString().split("T")[0],
   });
@@ -134,6 +134,7 @@ export const ModalActivos = ({ trigger, onAssetAdded }: AddAssetModalProps) => {
 
     const assetWithTotal = {
       ...formData,
+      amount: Number(formData.amount),
       valueInUSD: totalUSD,
     };
     onAssetAdded?.(assetWithTotal);
@@ -144,12 +145,12 @@ export const ModalActivos = ({ trigger, onAssetAdded }: AddAssetModalProps) => {
     addAhorro(assetWithTotal);
 
     if (formData.type === "dolar") {
-      const amount = parseFloat(formData.amount);
+      const amount = formData.amount;
       setDolarPlus(amount);
     }
 
     if (formData.type === "crypto") {
-      const amountCripto = parseFloat(formData.amount);
+      const amountCripto = formData.amount;
 
       switch (formData.currency) {
         case "bitcoin":

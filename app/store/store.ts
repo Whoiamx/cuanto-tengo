@@ -65,10 +65,25 @@ export const useStoreFinancial = create<FinancialStore>((set) => ({
     })),
 
   setNewAhorro: (ahorro: Ahorros) =>
-    set((state) => ({
-      activos: [...state.activos, ahorro],
-    })),
+    set((state) => {
+      // Buscar si ya existe un activo con el mismo currency
+      const index = state.activos.findIndex(
+        (a) => a.currency === ahorro.currency
+      );
 
+      if (index !== -1) {
+        // Si existe, crear un nuevo array con la suma de amounts en ese índice
+        const updatedActivos = [...state.activos];
+        updatedActivos[index] = {
+          ...updatedActivos[index],
+          amount: updatedActivos[index].amount + ahorro.amount,
+        };
+        return { activos: updatedActivos };
+      } else {
+        // Si no existe, agregar normalmente
+        return { activos: [...state.activos, ahorro] };
+      }
+    }),
   setDolarAhorro: (amount: number) =>
     set((state) => ({
       dolar: state.dolar + amount,

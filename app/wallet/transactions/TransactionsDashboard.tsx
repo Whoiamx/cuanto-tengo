@@ -40,124 +40,45 @@ import {
   ArrowUpDown,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-
-interface Transaction {
-  id: string;
-  assetName: string;
-  assetSymbol: string;
-  type: "buy" | "sell";
-  assetType: "crypto" | "fiat" | "stock" | "bond" | "real-estate";
-  totalValueARS: number;
-  totalValueUSD: number;
-  date: string;
-  description?: string;
-}
-
-const mockTransactions: Transaction[] = [
-  {
-    id: "1",
-    assetName: "Bitcoin",
-    assetSymbol: "BTC",
-    type: "buy",
-    assetType: "crypto",
-
-    totalValueARS: 3953437.5,
-    totalValueUSD: 10812.5,
-
-    date: "2024-01-15T10:30:00Z",
-  },
-  {
-    id: "2",
-    assetName: "Apple Inc.",
-    assetSymbol: "AAPL",
-    type: "buy",
-    assetType: "stock",
-    totalValueARS: 3384937.5,
-    totalValueUSD: 9262.5,
-    date: "2024-01-14T14:20:00Z",
-  },
-  {
-    id: "3",
-    assetName: "Dólar Estadounidense",
-    assetSymbol: "USD",
-    type: "buy",
-    assetType: "fiat",
-    totalValueARS: 731000,
-    totalValueUSD: 2000,
-
-    date: "2024-01-13T09:15:00Z",
-  },
-  {
-    id: "4",
-    assetName: "Ethereum",
-    assetSymbol: "ETH",
-    type: "sell",
-    assetType: "crypto",
-    totalValueARS: 1452375,
-    totalValueUSD: 3975,
-    date: "2024-01-12T16:45:00Z",
-  },
-  {
-    id: "5",
-    assetName: "Bonos del Tesoro",
-    assetSymbol: "BOND",
-    type: "buy",
-    assetType: "bond",
-    totalValueARS: 10000,
-    totalValueUSD: 27.36,
-    date: "2024-01-11T11:00:00Z",
-  },
-  {
-    id: "6",
-    assetName: "Tesla Inc.",
-    assetSymbol: "TSLA",
-    type: "buy",
-    assetType: "stock",
-    totalValueARS: 1361887.5,
-    totalValueUSD: 3727.5,
-    date: "2024-01-10T13:30:00Z",
-  },
-];
+import { useStoreFinancial } from "@/app/store/store";
+import { ModalActivos } from "@/app/components/ModalActivos";
 
 export const TransactionsDashboard = () => {
-  const [transactions] = useState<Transaction[]>(mockTransactions);
   const [searchTerm, setSearchTerm] = useState("");
   const [filterType, setFilterType] = useState<string>("all");
   const [filterAssetType, setFilterAssetType] = useState<string>("all");
   const [sortBy, setSortBy] = useState<"date" | "amount">("date");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
+  const activesInWallet = useStoreFinancial((state) => state.activos);
+  console.log(activesInWallet);
 
   const filteredAndSortedTransactions = useMemo(() => {
-    const filtered = transactions.filter((transaction) => {
+    const filtered = activesInWallet.filter((transaction) => {
       const matchesSearch =
-        transaction.assetName
-          .toLowerCase()
-          .includes(searchTerm.toLowerCase()) ||
-        transaction.assetSymbol
-          .toLowerCase()
-          .includes(searchTerm.toLowerCase());
+        transaction.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        transaction.symbol?.toLowerCase().includes(searchTerm.toLowerCase());
 
       const matchesType =
         filterType === "all" || transaction.type === filterType;
       const matchesAssetType =
-        filterAssetType === "all" || transaction.assetType === filterAssetType;
+        filterAssetType === "all" || transaction.type === filterAssetType;
 
       return matchesSearch && matchesType && matchesAssetType;
     });
 
     return filtered.sort((a, b) => {
       if (sortBy === "date") {
-        const dateA = new Date(a.date).getTime();
-        const dateB = new Date(b.date).getTime();
+        const dateA = a.purchaseDate ? new Date(a.purchaseDate).getTime() : 0;
+        const dateB = b.purchaseDate ? new Date(b.purchaseDate).getTime() : 0;
         return sortOrder === "desc" ? dateB - dateA : dateA - dateB;
       } else {
         return sortOrder === "desc"
-          ? b.totalValueUSD - a.totalValueUSD
-          : a.totalValueUSD - b.totalValueUSD;
+          ? Number(b.valueInUSD ?? 0) - Number(a.valueInUSD ?? 0)
+          : Number(a.valueInUSD ?? 0) - Number(b.valueInUSD ?? 0);
       }
     });
   }, [
-    transactions,
+    activesInWallet,
     searchTerm,
     filterType,
     filterAssetType,
@@ -190,10 +111,8 @@ export const TransactionsDashboard = () => {
         return "bg-green-100 text-green-600";
       case "stock":
         return "bg-blue-100 text-blue-600";
-      case "bond":
-        return "bg-purple-100 text-purple-600";
       case "real-estate":
-        return "bg-indigo-100 text-indigo-600";
+        return "bg-purple-100 text-purple-600";
       default:
         return "bg-gray-100 text-gray-600";
     }
@@ -202,7 +121,7 @@ export const TransactionsDashboard = () => {
   const formatCurrency = (amount: number, currency: string) => {
     return new Intl.NumberFormat("es-AR", {
       style: "currency",
-      currency: currency,
+      currency,
       minimumFractionDigits: currency === "ARS" ? 0 : 2,
       maximumFractionDigits: currency === "ARS" ? 0 : 2,
     }).format(amount);
@@ -218,15 +137,13 @@ export const TransactionsDashboard = () => {
     });
   };
 
-  const totalBought = transactions
+  const totalBought = activesInWallet
     .filter((t) => t.type === "buy")
-    .reduce((sum, t) => sum + t.totalValueUSD, 0);
+    .reduce((sum, t) => sum + Number(t.valueInUSD ?? 0), 0);
 
-  const totalSold = transactions
+  const totalSold = activesInWallet
     .filter((t) => t.type === "sell")
-    .reduce((sum, t) => sum + t.totalValueUSD, 0);
-
-  const netInvestment = totalBought - totalSold;
+    .reduce((sum, t) => sum + Number(t.valueInUSD ?? 0), 0);
 
   return (
     <div className="space-y-8">
@@ -245,6 +162,7 @@ export const TransactionsDashboard = () => {
             <Download className="w-4 h-4 mr-2" />
             Exportar
           </Button>
+          <ModalActivos />
         </div>
       </div>
 
@@ -288,7 +206,7 @@ export const TransactionsDashboard = () => {
               <div>
                 <p className="text-gray-600 text-sm">Transacciones</p>
                 <p className="text-2xl font-bold text-gray-900">
-                  {transactions.length}
+                  {activesInWallet.length}
                 </p>
               </div>
               <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center">
@@ -370,20 +288,20 @@ export const TransactionsDashboard = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {filteredAndSortedTransactions.map((transaction) => {
+                {filteredAndSortedTransactions.map((transaction, index) => {
                   const Icon = getAssetIcon(
-                    transaction.assetType,
-                    transaction.assetSymbol
+                    transaction.type,
+                    transaction.symbol ?? ""
                   );
 
                   return (
-                    <TableRow key={transaction.id} className="hover:bg-gray-50">
+                    <TableRow key={index} className="hover:bg-gray-50">
                       <TableCell>
                         <div className="flex items-center space-x-3">
                           <div
                             className={cn(
                               "w-10 h-10 rounded-full flex items-center justify-center",
-                              getAssetTypeColor(transaction.assetType)
+                              getAssetTypeColor(transaction.type)
                             )}
                           >
                             {typeof Icon === "string" ? (
@@ -393,11 +311,9 @@ export const TransactionsDashboard = () => {
                             )}
                           </div>
                           <div>
-                            <p className="font-semibold">
-                              {transaction.assetName}
-                            </p>
+                            <p className="font-semibold">{transaction.name}</p>
                             <p className="text-sm text-gray-500">
-                              {transaction.assetSymbol}
+                              {transaction.symbol}
                             </p>
                           </div>
                         </div>
@@ -422,7 +338,7 @@ export const TransactionsDashboard = () => {
                         <div className="flex items-center space-x-1">
                           <span className="text-lg">🇦🇷</span>
                           <span className="font-bold text-blue-600">
-                            {formatCurrency(transaction.totalValueARS, "ARS")}
+                            $ {transaction.amount}
                           </span>
                         </div>
                       </TableCell>
@@ -430,13 +346,16 @@ export const TransactionsDashboard = () => {
                       <TableCell>
                         <div className="flex items-center space-x-1">
                           <span className="font-bold text-green-600">
-                            {formatCurrency(transaction.totalValueUSD, "USD")}
+                            {formatCurrency(
+                              Number(transaction.valueInUSD ?? 0),
+                              "USD"
+                            )}
                           </span>
                         </div>
                       </TableCell>
 
                       <TableCell className="text-sm text-gray-600">
-                        {formatDate(transaction.date)}
+                        {formatDate(transaction.purchaseDate ?? "")}
                       </TableCell>
 
                       <TableCell>

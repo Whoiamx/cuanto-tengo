@@ -13,7 +13,7 @@ export interface CurrencyData {
 export interface Ahorros {
   type: string;
   name?: string;
-  amount: string;
+  amount: number;
   price?: string;
   symbol?: string;
   hide?: boolean;
