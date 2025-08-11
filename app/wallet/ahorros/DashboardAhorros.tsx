@@ -10,6 +10,7 @@ import { ModalActivos } from "@/app/components/ModalActivos";
 import { CardAhorros } from "./components/CardAhorros";
 import { useStoreFinancial } from "@/app/store/store";
 import { useDolarCurrency } from "@/app/hooks";
+import { CardsBalance } from "@/app/components/CardsBalance";
 
 export const DashboardAhorros = () => {
   const [hideBalances, setHideBalances] = useState(false);
@@ -54,51 +55,7 @@ export const DashboardAhorros = () => {
       </div>
 
       {/* Resumen Total */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card className="bg-gradient-to-br from-teal-500 to-teal-600 text-white">
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-teal-100 text-sm">Valor Total</p>
-                <p className="text-3xl font-bold">
-                  {hideBalances ? "••••••" : total}
-                </p>
-              </div>
-              <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
-                <DollarSign className="w-6 h-6" />
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-gray-600 text-sm">En Pesos Argentinos</p>
-                <p className="text-2xl font-bold text-blue-600">
-                  {hideBalances ? "••••••" : <p> $ {total}</p>}
-                </p>
-              </div>
-              <div className="text-2xl">🇦🇷</div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-gray-600 text-sm">En Dólares</p>
-                <p className="text-2xl font-bold text-green-600">
-                  {hideBalances ? "••••••" : <p> US {totalUSD}</p>}
-                </p>
-              </div>
-              <div className="text-2xl">🇺🇸</div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+      <CardsBalance total={total} totalUSD={totalUSD} />
 
       {/* Lista de Ahorros */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

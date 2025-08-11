@@ -13,6 +13,7 @@ import { formatearValor } from "../../../lib/utils";
 import { useStoreFinancial } from "@/app/store/store";
 
 import { ModalActivos } from "../ModalActivos";
+import { CardsBalance } from "../CardsBalance";
 
 export const Overview = () => {
   const { isLoading, data, error, refetch } = useDolarCurrency();
@@ -25,46 +26,16 @@ export const Overview = () => {
       state.totalAhorros + state.dolar + state.totalCriptos + state.acciones
   );
 
+  const amountNumber = Number(total || 0);
+  const ventaNumber = Number(data?.venta || 1);
+  let totalUSD = (amountNumber / ventaNumber).toFixed(2);
+
   return (
     <div className="space-y-8">
       <div>
         <h1 className="text-3xl font-bold text-gray-900">Overview</h1>
       </div>
-
-      <div className="grid grid-cols-3 md:grid-cols-3 gap-6">
-        <Card className="bg-slate-900 text-white">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-300">
-              Balance Actual
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold">$ {total}</div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">
-              Activos
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold text-green-600">$ {total}</div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">
-              Rendimiento
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold">$ 0</div>
-          </CardContent>
-        </Card>
-      </div>
+      <CardsBalance total={total} totalUSD={totalUSD} />
 
       <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-2 gap-8">
         {/* Pots Section */}
