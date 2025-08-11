@@ -12,6 +12,7 @@ export const useMoneyCategory = () => {
     { id: 1, label: "Dolares", total: dolars },
     { id: 2, label: "Criptomonedas", total: criptos },
     { id: 3, label: "CEDEARS / ACCIONES", total: acciones },
+    { id: 4, label: "Otros", total: 0 },
   ];
 
   return {

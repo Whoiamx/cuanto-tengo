@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { Ahorros } from "../interfaces/app-financial";
+import { Ahorros, OtrosActive } from "../interfaces/app-financial";
 
 interface FinancialStore {
   dolar: number;
@@ -12,6 +12,7 @@ interface FinancialStore {
   solana: number;
   xrp: number;
   activos: Ahorros[];
+  otros: OtrosActive[];
   setBitcoinAhorro: (amount: number) => void;
   setSolanaAhorro: (amount: number) => void;
   setUsdtAhorro: (amount: number) => void;
@@ -26,7 +27,6 @@ export const useStoreFinancial = create<FinancialStore>((set) => ({
   activos: [],
 
   dolar: 200,
-
   totalCriptos: 0,
   acciones: 0,
   bitcoin: 0,
@@ -34,6 +34,8 @@ export const useStoreFinancial = create<FinancialStore>((set) => ({
   usdt: 0,
   solana: 0,
   xrp: 0,
+
+  otros: [],
 
   setEthreumAhorro: (amount: number) =>
     set((state) => ({

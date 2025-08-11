@@ -21,3 +21,11 @@ export interface Ahorros {
   currency?: string;
   valueInUSD?: string;
 }
+
+export interface OtrosActive {
+  type: string;
+  amount: string;
+  price?: string;
+  purchaseDate?: string;
+  valueInUSD?: string;
+}
