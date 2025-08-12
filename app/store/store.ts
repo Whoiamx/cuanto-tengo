@@ -15,6 +15,7 @@ interface FinancialStore {
   activos: Ahorros[];
   otros: OtrosActive[];
   transactions: Ahorros[];
+  ventas: Ahorros[];
 
   setBitcoinAhorro: (amount: number) => void;
   setSolanaAhorro: (amount: number) => void;
@@ -33,6 +34,8 @@ export const useStoreFinancial = create<FinancialStore>()(
       totalAhorrosEnUSD: 0,
       activos: [],
       transactions: [],
+      ventas: [],
+
       dolares: 0,
       totalCriptos: 0,
       acciones: 0,
@@ -90,7 +93,7 @@ export const useStoreFinancial = create<FinancialStore>()(
         })),
     }),
     {
-      name: "financial-storage", // nombre en localStorage
+      name: "financial-storage",
     }
   )
 );

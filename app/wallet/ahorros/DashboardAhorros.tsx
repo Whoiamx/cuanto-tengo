@@ -1,15 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-
 import { Eye, EyeOff } from "lucide-react";
-import { cn } from "@/lib/utils";
 import { ModalActivos } from "@/app/components/ModalActivos";
 import { CardAhorros } from "./components/CardAhorros";
 import { useStoreFinancial } from "@/app/store/store";
 import { CardsBalance } from "@/app/components/CardsBalance";
+import { ModalVentas } from "@/app/components/ModalVentas";
 
 export const DashboardAhorros = () => {
   const [hideBalances, setHideBalances] = useState(false);
@@ -41,6 +39,7 @@ export const DashboardAhorros = () => {
           </Button>
 
           <ModalActivos />
+          <ModalVentas />
         </div>
       </div>
 
