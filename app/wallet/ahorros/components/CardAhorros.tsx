@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn, formatNumber, getAssetColor } from "@/lib/utils";
-import { Badge } from "@/components/ui/badge";
+import { SiEthereum, SiTether, SiSolana, SiRipple } from "react-icons/si";
 
 import { Ahorros } from "@/app/interfaces/app-financial";
 import {
@@ -10,7 +10,7 @@ import {
   Landmark,
   Edit2Icon,
 } from "lucide-react";
-import { useCriptoCurrency, useDolarCurrency } from "@/app/hooks";
+import { useDolarCurrency } from "@/app/hooks";
 
 export const CardAhorros = ({
   type,
@@ -20,14 +20,12 @@ export const CardAhorros = ({
   hide,
   currency,
 }: Ahorros) => {
-  const getAssetIcon = (type: string, symbol?: string) => {
-    switch (type) {
-      case "crypto":
-        if (symbol === "BTC") return <Bitcoin />;
+  const getAssetIcon = () => {
+    switch (currency) {
+      case "bitcoin":
+        return <Bitcoin />;
 
-        return <span>₿</span>;
-
-      case "dolar":
+      case "ARS":
         return <DollarSign />;
 
       case "accion":
@@ -36,13 +34,20 @@ export const CardAhorros = ({
       case "other":
         return <Landmark />;
 
+      case "ethereum":
+        return <SiEthereum size={20} />;
+      case "usdt":
+        return <SiTether size={20} />;
+      case "solana":
+        return <SiSolana size={20} />;
+      case "xrp":
+        return <SiRipple size={20} />;
       default:
         return null;
     }
   };
 
   const { data } = useDolarCurrency();
-  const btcPrice = useCriptoCurrency("BTC");
 
   const amountNumber = Number(amount || 0);
   const ventaNumber = Number(data?.venta || 1);
@@ -56,19 +61,21 @@ export const CardAhorros = ({
             <div
               className={cn(
                 "w-14 h-14 rounded-full flex items-center justify-center border-2",
-                getAssetColor(type)
+                getAssetColor(String(currency))
               )}
             >
-              {getAssetIcon(type, symbol)}
+              {getAssetIcon()}
             </div>
             <div className="flex justify-between items-center">
               <div>
-                <CardTitle className="text-xl">{type?.toUpperCase()}</CardTitle>
-                <div className="flex items-center gap-2 mt-1">
-                  <Badge variant="secondary" className="text-md">
-                    {name?.length ? name : currency?.toUpperCase()}
-                  </Badge>
-                </div>
+                <CardTitle className="text-xl">
+                  {" "}
+                  {name?.length
+                    ? name
+                    : currency?.toUpperCase() === "ARS"
+                    ? "DOLAR"
+                    : currency?.toUpperCase()}
+                </CardTitle>
               </div>
             </div>
           </div>

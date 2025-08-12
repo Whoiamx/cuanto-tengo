@@ -32,18 +32,24 @@ export const formatCurrency = (amount: number, currency: string) => {
     maximumFractionDigits: currency === "ARS" ? 0 : 2,
   }).format(amount);
 };
-export const getAssetColor = (type: string) => {
-  switch (type) {
-    case "crypto":
-      return "bg-orange-100 text-orange-600 border-orange-200";
-    case "fiat":
+export const getAssetColor = (currency: string) => {
+  switch (currency) {
+    case "bitcoin":
+      return "bg-yellow-100 text-yellow-600 border-yellow-200";
+    case "ars":
       return "bg-green-100 text-green-600 border-green-200";
-    case "stock":
+    case "accion":
       return "bg-blue-100 text-blue-600 border-blue-200";
-    case "bond":
-      return "bg-purple-100 text-purple-600 border-purple-200";
-    case "real-estate":
-      return "bg-indigo-100 text-indigo-600 border-indigo-200";
+    case "other":
+      return "bg-gray-100 text-gray-600 border-gray-200";
+    case "ethereum":
+      return "bg-gray-800 text-gray-300 border-gray-700";
+    case "usdt":
+      return "bg-green-200 text-green-800 border-green-300";
+    case "solana":
+      return "bg-teal-200 text-teal-700 border-teal-300";
+    case "xrp":
+      return "bg-gray-700 text-gray-100 border-gray-600";
     default:
       return "bg-gray-100 text-gray-600 border-gray-200";
   }
