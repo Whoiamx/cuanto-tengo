@@ -15,7 +15,7 @@ import { useStoreFinancial } from "@/app/store/store";
 
 import { ModalActivos } from "../ModalActivos";
 import { CardsBalance } from "../CardsBalance";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 export const Overview = () => {
   const { isLoading, data, error, refetch } = useDolarCurrency();
@@ -27,13 +27,17 @@ export const Overview = () => {
     (state) => state.dolares + state.totalCriptos + state.acciones
   );
 
-  const usd = useStoreFinancial((state) => state.dolares);
   const [hideBalances, setHideBalances] = useState(false);
 
-  const totalFormatted = total.toLocaleString("es-AR", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
+  const valueInUSD = useStoreFinancial((state) => state.totalAhorrosEnUSD);
+
+  const totalInUSD = useMemo(() => {
+    const valor = Number(valueInUSD) * (Number(data?.venta) || 1);
+    return valor.toLocaleString("es-AR", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+  }, [valueInUSD, data?.venta]);
 
   return (
     <div className="space-y-8">
@@ -56,7 +60,7 @@ export const Overview = () => {
 
         <ModalActivos />
       </div>
-      <CardsBalance hideBalances={hideBalances} totalUSD={usd} />
+      <CardsBalance hideBalances={hideBalances} />
 
       <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-2 gap-8">
         {/* Pots Section */}
@@ -73,9 +77,9 @@ export const Overview = () => {
             <CardContent className="space-y-4">
               <div className="flex gap-2 items-center space-x-4">
                 <div className="flex flex-col gap-2">
-                  <p className="text-sm text-gray-600">Total Ahorrado</p>
+                  <p className="text-sm text-gray-600">Total Ahorrado en ARS</p>
                   <p className="text-2xl font-bold">
-                    $ {hideBalances ? "••••••" : totalFormatted}
+                    $ {hideBalances ? "••••••" : totalInUSD}
                   </p>
                 </div>
               </div>

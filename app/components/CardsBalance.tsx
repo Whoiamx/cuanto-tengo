@@ -2,22 +2,24 @@ import { Card, CardContent } from "@/components/ui/card";
 import { DollarSign } from "lucide-react";
 import { useDolarCurrency } from "../hooks";
 import { useMemo } from "react";
+import { useStoreFinancial } from "../store/store";
 
 interface CardsBalance {
-  totalUSD: number;
   hideBalances: boolean;
 }
 
-export const CardsBalance = ({ totalUSD, hideBalances }: CardsBalance) => {
+export const CardsBalance = ({ hideBalances }: CardsBalance) => {
   const { data } = useDolarCurrency();
 
+  const valueInUSD = useStoreFinancial((state) => state.totalAhorrosEnUSD);
+
   const totalInUSD = useMemo(() => {
-    const valor = Number(totalUSD) * (Number(data?.venta) || 1);
+    const valor = Number(valueInUSD) * (Number(data?.venta) || 1);
     return valor.toLocaleString("es-AR", {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     });
-  }, [totalUSD, data?.venta]);
+  }, [valueInUSD, data?.venta]);
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -57,7 +59,7 @@ export const CardsBalance = ({ totalUSD, hideBalances }: CardsBalance) => {
             <div className="flex flex-col gap-2">
               <p className="text-gray-600 text-sm">En Dólares</p>
               <p className="text-2xl font-bold text-green-600">
-                US {hideBalances ? "••••••" : totalUSD}
+                US {hideBalances ? "••••••" : valueInUSD}
               </p>
             </div>
             <div className="text-2xl">🇺🇸</div>

@@ -7,6 +7,14 @@ import Link from "next/link";
 export const TransactionsOverview = () => {
   const transactions = useStoreFinancial((state) => state.transactions);
 
+  const formatNumber = (number: number) => {
+    const formattedMiles = new Intl.NumberFormat("es-AR", {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(number);
+    return formattedMiles;
+  };
+
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between">
@@ -18,8 +26,8 @@ export const TransactionsOverview = () => {
         </Link>
       </CardHeader>
       <CardContent className="space-y-4">
-        {transactions.map((trans) => (
-          <div className="flex items-center justify-between">
+        {transactions.map((trans, index) => (
+          <div key={index} className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <div>
                 <p className="font-regular">
@@ -33,7 +41,7 @@ export const TransactionsOverview = () => {
               </div>
             </div>
             <span className="font-semibold text-green-600">
-              ARS ${trans.amount}
+              ARS ${formatNumber(trans.amount)}
             </span>
           </div>
         ))}

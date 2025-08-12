@@ -24,7 +24,7 @@ export interface Ahorros {
 
 export interface OtrosActive {
   type: string;
-  amount: string;
+  amount: number;
   price?: string;
   purchaseDate?: string;
   valueInUSD?: number;

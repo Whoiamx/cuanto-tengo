@@ -4,7 +4,6 @@ import { Ahorros, OtrosActive } from "../interfaces/app-financial";
 
 interface FinancialStore {
   dolares: number;
-  totalAhorrosEnArs: number;
   totalAhorrosEnUSD: number;
   totalCriptos: number;
   acciones: number;
@@ -16,6 +15,7 @@ interface FinancialStore {
   activos: Ahorros[];
   otros: OtrosActive[];
   transactions: Ahorros[];
+
   setBitcoinAhorro: (amount: number) => void;
   setSolanaAhorro: (amount: number) => void;
   setUsdtAhorro: (amount: number) => void;
@@ -24,16 +24,17 @@ interface FinancialStore {
   setDolarAhorro: (amount: number) => void;
   setNewAhorro: (ahorro: Ahorros) => void;
   setNewTransaction: (transaction: Ahorros) => void;
+  setAhorroEnUsd: (amount: number) => void;
+  deleteAhorro: (ahorro: string) => void;
 }
 
 export const useStoreFinancial = create<FinancialStore>()(
   persist(
     (set) => ({
-      totalAhorrosEnArs: 0,
       totalAhorrosEnUSD: 0,
       activos: [],
       transactions: [],
-      dolares: 222,
+      dolares: 0,
       totalCriptos: 0,
       acciones: 0,
       bitcoin: 0,
@@ -42,6 +43,16 @@ export const useStoreFinancial = create<FinancialStore>()(
       solana: 0,
       xrp: 0,
       otros: [],
+
+      deleteAhorro: (currency) =>
+        set((state) => ({
+          activos: state.activos.filter((a) => a.currency !== currency),
+        })),
+
+      setAhorroEnUsd: (amount) =>
+        set((state) => ({
+          totalAhorrosEnUSD: state.totalAhorrosEnUSD + amount,
+        })),
 
       setEthreumAhorro: (amount) =>
         set((state) => ({ ethreum: state.ethreum + amount })),

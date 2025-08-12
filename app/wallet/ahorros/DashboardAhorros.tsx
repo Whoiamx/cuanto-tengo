@@ -9,22 +9,12 @@ import { cn } from "@/lib/utils";
 import { ModalActivos } from "@/app/components/ModalActivos";
 import { CardAhorros } from "./components/CardAhorros";
 import { useStoreFinancial } from "@/app/store/store";
-import { useDolarCurrency } from "@/app/hooks";
 import { CardsBalance } from "@/app/components/CardsBalance";
 
 export const DashboardAhorros = () => {
   const [hideBalances, setHideBalances] = useState(false);
   const activesInWallet = useStoreFinancial((state) => state.activos);
   console.log(activesInWallet);
-  const total = useStoreFinancial(
-    (state) => state.dolares + state.totalCriptos + state.acciones
-  );
-  const { data } = useDolarCurrency();
-
-  const amountNumber = Number(total || 0);
-  const ventaNumber = Number(data?.venta || 1);
-  let totalUSD = Number((amountNumber / ventaNumber).toFixed(2));
-  const usd = useStoreFinancial((state) => state.dolares);
 
   return (
     <div className="space-y-8">
@@ -55,7 +45,7 @@ export const DashboardAhorros = () => {
       </div>
 
       {/* Resumen Total */}
-      <CardsBalance totalUSD={usd} hideBalances={hideBalances} />
+      <CardsBalance hideBalances={hideBalances} />
 
       {/* Lista de Ahorros */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

@@ -3,7 +3,14 @@ import { cn, getAssetColor } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 
 import { Ahorros } from "@/app/interfaces/app-financial";
-import { Bitcoin, DollarSign, TrendingUp, Landmark } from "lucide-react";
+import {
+  Bitcoin,
+  DollarSign,
+  TrendingUp,
+  Landmark,
+  TrashIcon,
+} from "lucide-react";
+import { useStoreFinancial } from "@/app/store/store";
 
 export const CardAhorros = ({
   type,
@@ -35,10 +42,19 @@ export const CardAhorros = ({
     }
   };
 
+  const formatNumber = (number: number) => {
+    const formattedMiles = new Intl.NumberFormat("es-AR", {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(number);
+    return formattedMiles;
+  };
+  const deleteAhorros = useStoreFinancial((state) => state.deleteAhorro);
+
   return (
     <Card className="hover:shadow-lg transition-all duration-200">
       <CardHeader className="pb-4">
-        <div className="flex items-start justify-between">
+        <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <div
               className={cn(
@@ -48,15 +64,21 @@ export const CardAhorros = ({
             >
               {getAssetIcon(type, symbol)}
             </div>
-            <div>
-              <CardTitle className="text-xl">{type?.toUpperCase()}</CardTitle>
-              <div className="flex items-center gap-2 mt-1">
-                <Badge variant="secondary" className="text-md">
-                  {name?.length ? name : currency?.toUpperCase()}
-                </Badge>
+            <div className="flex justify-between items-center">
+              <div>
+                <CardTitle className="text-xl">{type?.toUpperCase()}</CardTitle>
+                <div className="flex items-center gap-2 mt-1">
+                  <Badge variant="secondary" className="text-md">
+                    {name?.length ? name : currency?.toUpperCase()}
+                  </Badge>
+                </div>
               </div>
             </div>
           </div>
+          <TrashIcon
+            onClick={() => deleteAhorros(currency!)}
+            className="hover:cursor-pointer"
+          />
         </div>
       </CardHeader>
 
@@ -76,7 +98,7 @@ export const CardAhorros = ({
               🇦🇷 Valor en ARS:
             </span>
             <span className="font-medium text-lg">
-              {hide ? "••••••" : <p>$ {amount}</p>}
+              {hide ? "••••••" : <p>$ {formatNumber(amount)}</p>}
             </span>
           </div>
         </div>

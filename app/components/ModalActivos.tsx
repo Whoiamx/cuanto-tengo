@@ -25,27 +25,16 @@ import { useStoreHooks } from "../store/hooks/useStoreHooks";
 import { useDolarCurrency } from "../hooks/useDolarCurrency";
 import { useModalActions } from "../hooks/useModalActions";
 import { useStoreFinancial } from "../store/store";
-
-interface AssetFormData {
-  name?: string;
-  type: string;
-  amount: number;
-  currency: string;
-  purchaseDate: string;
-  valueInUSD?: number;
-  price?: string;
-  symbol?: string;
-  hide?: boolean;
-}
+import { Ahorros } from "../interfaces/app-financial";
 
 interface AddAssetModalProps {
   trigger?: React.ReactNode;
-  onAssetAdded?: (asset: AssetFormData) => void;
+  onAssetAdded?: (asset: Ahorros) => void;
 }
 
 const assetTypes = [
   {
-    value: "acciones",
+    value: "accion",
     label: "Acciones",
     icon: TrendingUp,
     color: "bg-blue-100 text-blue-600",
@@ -97,7 +86,9 @@ export const ModalActivos = ({ trigger, onAssetAdded }: AddAssetModalProps) => {
     (state) => state.setNewTransaction
   );
 
-  const [formData, setFormData] = useState<AssetFormData>({
+  const addAhorroEnUsd = useStoreFinancial((state) => state.setAhorroEnUsd);
+
+  const [formData, setFormData] = useState<Ahorros>({
     name: "",
     type: "",
     amount: 0,
@@ -116,8 +107,17 @@ export const ModalActivos = ({ trigger, onAssetAdded }: AddAssetModalProps) => {
 
   const { data } = useDolarCurrency();
 
-  const handleInputChange = (field: keyof AssetFormData, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
+  const handleInputChange = (field: keyof Ahorros, value: string) => {
+    if (field === "amount") {
+      // Para amount siempre convertir a número, aunque sea crypto
+      const numberValue = parseFloat(value);
+      setFormData((prev) => ({
+        ...prev,
+        [field]: isNaN(numberValue) ? 0 : numberValue,
+      }));
+    } else {
+      setFormData((prev) => ({ ...prev, [field]: value }));
+    }
   };
 
   const handleTypeSelect = (type: string) => {
@@ -140,11 +140,15 @@ export const ModalActivos = ({ trigger, onAssetAdded }: AddAssetModalProps) => {
       amount: Number(formData.amount),
       valueInUSD: Number(totalUSD),
     };
+
+    console.log(assetWithTotal);
     onAssetAdded?.(assetWithTotal);
     setSelectedType("");
     setIsSubmitting(false);
     setOpen(false);
     addNewTransaction(assetWithTotal);
+
+    addAhorroEnUsd(assetWithTotal.valueInUSD);
 
     addAhorro(assetWithTotal);
 
@@ -160,7 +164,7 @@ export const ModalActivos = ({ trigger, onAssetAdded }: AddAssetModalProps) => {
         case "bitcoin":
           setBicoinPlus(amountCripto);
           break;
-        case "ethreum":
+        case "ethereum":
           setEthereumPlus(amountCripto);
           break;
         case "usdt":
@@ -248,9 +252,9 @@ export const ModalActivos = ({ trigger, onAssetAdded }: AddAssetModalProps) => {
                   <Input
                     id="name"
                     placeholder={`${
-                      formData.type === "other"
-                        ? "Ej: Oro, Plata, Propiedad..."
-                        : "Ej: Apple Inc., NVIDIA, AMD..."
+                      formData.type === "accion"
+                        ? "Ej: Apple Inc., NVIDIA, AMD..."
+                        : "Ej: Oro, Plata, Propiedad..."
                     }`}
                     value={formData.name}
                     onChange={(e) => handleInputChange("name", e.target.value)}
@@ -325,7 +329,7 @@ export const ModalActivos = ({ trigger, onAssetAdded }: AddAssetModalProps) => {
               <Input
                 id="price"
                 type="number"
-                step="0.01"
+                step={formData.type === "crypto" ? "0.00000001" : "0.01"}
                 placeholder="0.00"
                 value={formData.amount}
                 onChange={(e) => handleInputChange("amount", e.target.value)}

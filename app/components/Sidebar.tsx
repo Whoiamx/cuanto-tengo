@@ -17,9 +17,7 @@ export function Sidebar() {
   return (
     <div className="w-84 bg-slate-900 text-white">
       <div className="p-6">
-        <h1 className="text-4xl font-medium text-nowrap">
-          <i>Cuanto Tengo </i>💲
-        </h1>
+        <h1 className="text-4xl font-bold text-nowrap">Cuanto Tengo 💲</h1>
       </div>
       <nav className="mt-8">
         <ul className="space-y-2 px-4">
