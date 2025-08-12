@@ -1,19 +1,12 @@
 import { useStoreFinancial } from "@/app/store/store";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { formatNumber } from "@/lib/utils";
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 
 export const TransactionsOverview = () => {
   const transactions = useStoreFinancial((state) => state.transactions);
-
-  const formatNumber = (number: number) => {
-    const formattedMiles = new Intl.NumberFormat("es-AR", {
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    }).format(number);
-    return formattedMiles;
-  };
 
   return (
     <Card>

@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { cn, getAssetColor } from "@/lib/utils";
+import { cn, formatNumber, getAssetColor } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 
 import { Ahorros } from "@/app/interfaces/app-financial";
@@ -42,13 +42,6 @@ export const CardAhorros = ({
     }
   };
 
-  const formatNumber = (number: number) => {
-    const formattedMiles = new Intl.NumberFormat("es-AR", {
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    }).format(number);
-    return formattedMiles;
-  };
   const deleteAhorros = useStoreFinancial((state) => state.deleteAhorro);
 
   return (

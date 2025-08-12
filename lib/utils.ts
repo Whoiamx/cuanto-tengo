@@ -48,3 +48,11 @@ export const getAssetColor = (type: string) => {
       return "bg-gray-100 text-gray-600 border-gray-200";
   }
 };
+
+export const formatNumber = (number: number) => {
+  const formattedMiles = new Intl.NumberFormat("es-AR", {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(number);
+  return formattedMiles;
+};

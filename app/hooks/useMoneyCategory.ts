@@ -1,3 +1,4 @@
+import { formatNumber } from "@/lib/utils";
 import { useStoreFinancial } from "../store/store";
 
 export const useMoneyCategory = () => {
@@ -8,17 +9,8 @@ export const useMoneyCategory = () => {
   );
 
   const ethereum = useStoreFinancial((state) => state.ethreum);
-  console.log(ethereum);
 
   const acciones = useStoreFinancial((state) => state.acciones);
-
-  const formatNumber = (number: number) => {
-    const formattedMiles = new Intl.NumberFormat("es-AR", {
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    }).format(number);
-    return formattedMiles;
-  };
 
   const options = [
     { id: 1, label: "Dolares", total: formatNumber(dolars) },
