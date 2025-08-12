@@ -10,7 +10,7 @@ import {
   Landmark,
   Edit2Icon,
 } from "lucide-react";
-import { useDolarCurrency } from "@/app/hooks";
+import { useCriptoCurrency, useDolarCurrency } from "@/app/hooks";
 
 export const CardAhorros = ({
   type,
@@ -42,6 +42,7 @@ export const CardAhorros = ({
   };
 
   const { data } = useDolarCurrency();
+  const btcPrice = useCriptoCurrency("BTC");
 
   const amountNumber = Number(amount || 0);
   const ventaNumber = Number(data?.venta || 1);
