@@ -10,6 +10,7 @@ import {
   Landmark,
   Edit2Icon,
 } from "lucide-react";
+import { useDolarCurrency } from "@/app/hooks";
 
 export const CardAhorros = ({
   type,
@@ -17,7 +18,6 @@ export const CardAhorros = ({
   amount,
   symbol,
   hide,
-  valueInUSD,
   currency,
 }: Ahorros) => {
   const getAssetIcon = (type: string, symbol?: string) => {
@@ -40,6 +40,12 @@ export const CardAhorros = ({
         return null;
     }
   };
+
+  const { data } = useDolarCurrency();
+
+  const amountNumber = Number(amount || 0);
+  const ventaNumber = Number(data?.venta || 1);
+  let totalUSD = (amountNumber / ventaNumber).toFixed(2);
 
   return (
     <Card className="hover:shadow-lg transition-all duration-200">
@@ -77,7 +83,7 @@ export const CardAhorros = ({
               💵 Valor en USD:
             </span>
             <span className="font-bold text-green-600 text-lg">
-              {hide ? "••••••" : <p>U$ {valueInUSD}</p>}
+              {hide ? "••••••" : <p>U$ {totalUSD}</p>}
             </span>
           </div>
           <div className="flex justify-between items-center">

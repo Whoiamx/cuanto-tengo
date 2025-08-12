@@ -59,7 +59,7 @@ export const CardsBalance = ({ hideBalances }: CardsBalance) => {
             <div className="flex flex-col gap-2">
               <p className="text-gray-600 text-sm">En Dólares</p>
               <p className="text-2xl font-bold text-green-600">
-                US {hideBalances ? "••••••" : valueInUSD}
+                US {hideBalances ? "••••••" : valueInUSD.toFixed(2)}
               </p>
             </div>
             <div className="text-2xl">🇺🇸</div>
