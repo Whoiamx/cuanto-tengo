@@ -50,9 +50,11 @@ export const getAssetColor = (type: string) => {
 };
 
 export const formatNumber = (number: number) => {
+  const numberToNumber = Number(number);
+
   const formattedMiles = new Intl.NumberFormat("es-AR", {
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
-  }).format(number);
+  }).format(numberToNumber);
   return formattedMiles;
 };

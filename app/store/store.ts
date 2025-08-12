@@ -25,7 +25,6 @@ interface FinancialStore {
   setNewAhorro: (ahorro: Ahorros) => void;
   setNewTransaction: (transaction: Ahorros) => void;
   setAhorroEnUsd: (amount: number) => void;
-  deleteAhorro: (ahorro: string) => void;
 }
 
 export const useStoreFinancial = create<FinancialStore>()(
@@ -43,11 +42,6 @@ export const useStoreFinancial = create<FinancialStore>()(
       solana: 0,
       xrp: 0,
       otros: [],
-
-      deleteAhorro: (currency) =>
-        set((state) => ({
-          activos: state.activos.filter((a) => a.currency !== currency),
-        })),
 
       setAhorroEnUsd: (amount) =>
         set((state) => ({
@@ -81,7 +75,8 @@ export const useStoreFinancial = create<FinancialStore>()(
             const updatedActivos = [...state.activos];
             updatedActivos[index] = {
               ...updatedActivos[index],
-              amount: updatedActivos[index].amount + ahorro.amount,
+              amount:
+                Number(updatedActivos[index].amount) + Number(ahorro.amount),
             };
             return { activos: updatedActivos };
           } else {

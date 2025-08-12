@@ -34,7 +34,7 @@ export const TransactionsOverview = () => {
               </div>
             </div>
             <span className="font-semibold text-green-600">
-              ARS ${formatNumber(trans.amount)}
+              ARS ${formatNumber(Number(trans.amount))}
             </span>
           </div>
         ))}

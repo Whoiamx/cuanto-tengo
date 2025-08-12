@@ -91,7 +91,7 @@ export const ModalActivos = ({ trigger, onAssetAdded }: AddAssetModalProps) => {
   const [formData, setFormData] = useState<Ahorros>({
     name: "",
     type: "",
-    amount: 0,
+    amount: "",
     currency: "USD",
     purchaseDate: new Date().toISOString().split("T")[0],
   });
@@ -109,7 +109,6 @@ export const ModalActivos = ({ trigger, onAssetAdded }: AddAssetModalProps) => {
 
   const handleInputChange = (field: keyof Ahorros, value: string) => {
     if (field === "amount") {
-      // Para amount siempre convertir a número, aunque sea crypto
       const numberValue = parseFloat(value);
       setFormData((prev) => ({
         ...prev,
@@ -154,7 +153,7 @@ export const ModalActivos = ({ trigger, onAssetAdded }: AddAssetModalProps) => {
 
     if (formData.type === "dolar") {
       const amount = formData.amount;
-      setDolarPlus(amount);
+      setDolarPlus(Number(amount));
     }
 
     if (formData.type === "crypto") {
@@ -162,19 +161,19 @@ export const ModalActivos = ({ trigger, onAssetAdded }: AddAssetModalProps) => {
 
       switch (formData.currency) {
         case "bitcoin":
-          setBicoinPlus(amountCripto);
+          setBicoinPlus(Number(amountCripto));
           break;
         case "ethereum":
-          setEthereumPlus(amountCripto);
+          setEthereumPlus(Number(amountCripto));
           break;
         case "usdt":
-          setUsdtPlus(amountCripto);
+          setUsdtPlus(Number(amountCripto));
           break;
         case "solana":
-          setSolanaPlus(amountCripto);
+          setSolanaPlus(Number(amountCripto));
           break;
         case "xrp":
-          setXrpPlus(amountCripto);
+          setXrpPlus(Number(amountCripto));
           break;
       }
     }

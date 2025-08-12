@@ -8,9 +8,8 @@ import {
   DollarSign,
   TrendingUp,
   Landmark,
-  TrashIcon,
+  Edit2Icon,
 } from "lucide-react";
-import { useStoreFinancial } from "@/app/store/store";
 
 export const CardAhorros = ({
   type,
@@ -42,8 +41,6 @@ export const CardAhorros = ({
     }
   };
 
-  const deleteAhorros = useStoreFinancial((state) => state.deleteAhorro);
-
   return (
     <Card className="hover:shadow-lg transition-all duration-200">
       <CardHeader className="pb-4">
@@ -68,10 +65,7 @@ export const CardAhorros = ({
               </div>
             </div>
           </div>
-          <TrashIcon
-            onClick={() => deleteAhorros(currency!)}
-            className="hover:cursor-pointer"
-          />
+          <Edit2Icon className="hover:cursor-pointer" />
         </div>
       </CardHeader>
 
@@ -91,7 +85,7 @@ export const CardAhorros = ({
               🇦🇷 Valor en ARS:
             </span>
             <span className="font-medium text-lg">
-              {hide ? "••••••" : <p>$ {formatNumber(amount)}</p>}
+              {hide ? "••••••" : <p>$ {formatNumber(Number(amount))}</p>}
             </span>
           </div>
         </div>
