@@ -13,7 +13,7 @@ export const TransactionsOverview = () => {
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle className="text-xl font-semibold">Transacciones</CardTitle>
         <Link href={`/wallet/transactions`}>
-          <Button variant="ghost" size="sm">
+          <Button className="hover:underline" variant="ghost" size="sm">
             Ver Todas <ChevronRight className="ml-1 h-4 w-4" />
           </Button>
         </Link>

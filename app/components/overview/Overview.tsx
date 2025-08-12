@@ -71,7 +71,7 @@ export const Overview = () => {
             <CardHeader className="flex  flex-row  items-center justify-between">
               <CardTitle className="text-xl font-semibold">Ahorros</CardTitle>
               <Link href={`/wallet/ahorros`}>
-                <Button variant="ghost" size="sm">
+                <Button variant="ghost" className="hover:underline" size="sm">
                   Ver Detalles <ChevronRight className="ml-1 h-4 w-4" />
                 </Button>
               </Link>
