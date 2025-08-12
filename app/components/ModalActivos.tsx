@@ -32,7 +32,7 @@ interface AssetFormData {
   amount: number;
   currency: string;
   purchaseDate: string;
-  valueInUSD?: string;
+  valueInUSD?: number;
   price?: string;
   symbol?: string;
   hide?: boolean;
@@ -45,7 +45,7 @@ interface AddAssetModalProps {
 
 const assetTypes = [
   {
-    value: "accion",
+    value: "acciones",
     label: "Acciones",
     icon: TrendingUp,
     color: "bg-blue-100 text-blue-600",
@@ -138,7 +138,7 @@ export const ModalActivos = ({ trigger, onAssetAdded }: AddAssetModalProps) => {
     const assetWithTotal = {
       ...formData,
       amount: Number(formData.amount),
-      valueInUSD: totalUSD,
+      valueInUSD: Number(totalUSD),
     };
     onAssetAdded?.(assetWithTotal);
     setSelectedType("");

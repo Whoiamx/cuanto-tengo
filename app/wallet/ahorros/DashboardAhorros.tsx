@@ -17,14 +17,13 @@ export const DashboardAhorros = () => {
   const activesInWallet = useStoreFinancial((state) => state.activos);
   console.log(activesInWallet);
   const total = useStoreFinancial(
-    (state) =>
-      state.totalAhorros + state.dolar + state.totalCriptos + state.acciones
+    (state) => state.dolares + state.totalCriptos + state.acciones
   );
   const { data } = useDolarCurrency();
 
   const amountNumber = Number(total || 0);
   const ventaNumber = Number(data?.venta || 1);
-  let totalUSD = (amountNumber / ventaNumber).toFixed(2);
+  let totalUSD = Number((amountNumber / ventaNumber).toFixed(2));
 
   return (
     <div className="space-y-8">

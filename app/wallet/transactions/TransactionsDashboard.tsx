@@ -137,13 +137,10 @@ export const TransactionsDashboard = () => {
     });
   };
 
-  const totalBought = activesInWallet
-    .filter((t) => t.type === "buy")
-    .reduce((sum, t) => sum + Number(t.valueInUSD ?? 0), 0);
-
-  const totalSold = activesInWallet
-    .filter((t) => t.type === "sell")
-    .reduce((sum, t) => sum + Number(t.valueInUSD ?? 0), 0);
+  const totalBought = activesInWallet.reduce(
+    (sum, t) => sum + Number(t.valueInUSD ?? 0),
+    0
+  );
 
   return (
     <div className="space-y-8">
@@ -188,9 +185,7 @@ export const TransactionsDashboard = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-gray-600 text-sm">Total Ventas</p>
-                <p className="text-2xl font-bold text-red-600">
-                  {formatCurrency(totalSold, "USD")}
-                </p>
+                <p className="text-2xl font-bold text-red-600">0</p>
               </div>
               <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
                 <TrendingDown className="w-5 h-5 text-red-600" />
@@ -250,10 +245,9 @@ export const TransactionsDashboard = () => {
               <SelectContent>
                 <SelectItem value="all">Todos los activos</SelectItem>
                 <SelectItem value="crypto">Criptomonedas</SelectItem>
-                <SelectItem value="stock">Acciones</SelectItem>
-                <SelectItem value="fiat">Monedas Fiat</SelectItem>
-                <SelectItem value="bond">Bonos</SelectItem>
-                <SelectItem value="real-estate">Bienes Raíces</SelectItem>
+                <SelectItem value="acciones">Acciones</SelectItem>
+                <SelectItem value="dolar">Dolar</SelectItem>
+                <SelectItem value="other">Bonos</SelectItem>
               </SelectContent>
             </Select>
 
@@ -355,23 +349,6 @@ export const TransactionsDashboard = () => {
 
                       <TableCell className="text-sm text-gray-600">
                         {formatDate(transaction.purchaseDate ?? "")}
-                      </TableCell>
-
-                      <TableCell>
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="sm">
-                              <MoreHorizontal className="w-4 h-4" />
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end">
-                            <DropdownMenuItem>Ver detalles</DropdownMenuItem>
-                            <DropdownMenuItem>Editar</DropdownMenuItem>
-                            <DropdownMenuItem className="text-red-600">
-                              Eliminar
-                            </DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
                       </TableCell>
                     </TableRow>
                   );

@@ -3,8 +3,9 @@ import { persist } from "zustand/middleware";
 import { Ahorros, OtrosActive } from "../interfaces/app-financial";
 
 interface FinancialStore {
-  dolar: number;
-  totalAhorros: number;
+  dolares: number;
+  totalAhorrosEnArs: number;
+  totalAhorrosEnUSD: number;
   totalCriptos: number;
   acciones: number;
   bitcoin: number;
@@ -28,10 +29,11 @@ interface FinancialStore {
 export const useStoreFinancial = create<FinancialStore>()(
   persist(
     (set) => ({
-      totalAhorros: 0,
+      totalAhorrosEnArs: 0,
+      totalAhorrosEnUSD: 0,
       activos: [],
       transactions: [],
-      dolar: 200,
+      dolares: 222,
       totalCriptos: 0,
       acciones: 0,
       bitcoin: 0,
@@ -56,7 +58,7 @@ export const useStoreFinancial = create<FinancialStore>()(
         set((state) => ({ bitcoin: state.bitcoin + amount })),
 
       setDolarAhorro: (amount) =>
-        set((state) => ({ dolar: state.dolar + amount })),
+        set((state) => ({ dolares: state.dolares + amount })),
 
       setNewAhorro: (ahorro) =>
         set((state) => {

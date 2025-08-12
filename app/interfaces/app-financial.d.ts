@@ -19,7 +19,7 @@ export interface Ahorros {
   hide?: boolean;
   purchaseDate?: string;
   currency?: string;
-  valueInUSD?: string;
+  valueInUSD?: number;
 }
 
 export interface OtrosActive {
@@ -27,5 +27,5 @@ export interface OtrosActive {
   amount: string;
   price?: string;
   purchaseDate?: string;
-  valueInUSD?: string;
+  valueInUSD?: number;
 }

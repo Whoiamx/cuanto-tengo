@@ -22,20 +22,22 @@ export const Overview = () => {
   const usdtData = useCriptoCurrency("USDT");
   const solanaData = useCriptoCurrency("SOL");
   const total = useStoreFinancial(
-    (state) =>
-      state.totalAhorros + state.dolar + state.totalCriptos + state.acciones
+    (state) => state.dolares + state.totalCriptos + state.acciones
   );
 
-  const amountNumber = Number(total || 0);
-  const ventaNumber = Number(data?.venta || 1);
-  let totalUSD = (amountNumber / ventaNumber).toFixed(2);
+  const usd = useStoreFinancial((state) => state.dolares);
+
+  const totalFormatted = total.toLocaleString("es-AR", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
 
   return (
     <div className="space-y-8">
       <div>
         <h1 className="text-3xl font-bold text-gray-900">Overview</h1>
       </div>
-      <CardsBalance total={total} totalUSD={totalUSD} />
+      <CardsBalance total={total} totalUSD={usd} />
 
       <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-2 gap-8">
         {/* Pots Section */}
@@ -53,7 +55,7 @@ export const Overview = () => {
               <div className="flex gap-2 items-center space-x-4">
                 <div className="flex flex-col gap-2">
                   <p className="text-sm text-gray-600">Total Ahorrado</p>
-                  <p className="text-2xl font-bold">$ {total}</p>
+                  <p className="text-2xl font-bold">$ {totalFormatted}</p>
                 </div>
               </div>
               <div className="flex flex-col pb-2">
