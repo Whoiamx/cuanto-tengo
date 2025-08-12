@@ -93,6 +93,9 @@ export const ModalActivos = ({ trigger, onAssetAdded }: AddAssetModalProps) => {
   } = useModalActions();
 
   const addAhorro = useStoreFinancial((state) => state.setNewAhorro);
+  const addNewTransaction = useStoreFinancial(
+    (state) => state.setNewTransaction
+  );
 
   const [formData, setFormData] = useState<AssetFormData>({
     name: "",
@@ -141,6 +144,7 @@ export const ModalActivos = ({ trigger, onAssetAdded }: AddAssetModalProps) => {
     setSelectedType("");
     setIsSubmitting(false);
     setOpen(false);
+    addNewTransaction(assetWithTotal);
 
     addAhorro(assetWithTotal);
 

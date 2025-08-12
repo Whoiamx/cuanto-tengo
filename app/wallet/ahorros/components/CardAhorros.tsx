@@ -62,17 +62,6 @@ export const CardAhorros = ({
       </CardHeader>
 
       <CardContent className="space-y-4">
-        {/* Cantidad y Precio */}
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <p className="text-sm text-gray-600">Precio en ARS</p>
-            <p className="font-semibold text-lg">123</p>
-          </div>
-          <div>
-            <p className="text-sm text-gray-600">Precio en USD</p>
-            <p className="font-semibold text-lg">1232</p>
-          </div>
-        </div>
         {/* Valores en diferentes monedas */}
         <div className="bg-gray-50 rounded-lg p-4 space-y-3">
           <div className="flex justify-between items-center">
@@ -87,7 +76,7 @@ export const CardAhorros = ({
             <span className="text-sm font-medium text-gray-700">
               🇦🇷 Valor en ARS:
             </span>
-            <span className="font-bold text-blue-600 text-lg">
+            <span className="font-medium text-lg">
               {hide ? "••••••" : <p>$ {amount}</p>}
             </span>
           </div>

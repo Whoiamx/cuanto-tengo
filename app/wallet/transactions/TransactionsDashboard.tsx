@@ -162,7 +162,6 @@ export const TransactionsDashboard = () => {
             <Download className="w-4 h-4 mr-2" />
             Exportar
           </Button>
-          <ModalActivos />
         </div>
       </div>
 
@@ -311,7 +310,11 @@ export const TransactionsDashboard = () => {
                             )}
                           </div>
                           <div>
-                            <p className="font-semibold">{transaction.name}</p>
+                            <p className="font-semibold">
+                              {transaction.name?.length
+                                ? transaction.name.toUpperCase()
+                                : transaction.currency?.toUpperCase()}
+                            </p>
                             <p className="text-sm text-gray-500">
                               {transaction.symbol}
                             </p>
@@ -324,13 +327,9 @@ export const TransactionsDashboard = () => {
                           variant={
                             transaction.type === "buy" ? "default" : "secondary"
                           }
-                          className={cn(
-                            transaction.type === "buy"
-                              ? "bg-green-100 text-green-700 hover:bg-green-200"
-                              : "bg-red-100 text-red-700 hover:bg-red-200"
-                          )}
+                          className="bg-green-100 text-green-700 hover:bg-green-200"
                         >
-                          {transaction.type === "buy" ? "Compra" : "Venta"}
+                          Compra
                         </Badge>
                       </TableCell>
 

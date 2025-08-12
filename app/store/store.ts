@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 import { Ahorros, OtrosActive } from "../interfaces/app-financial";
 
 interface FinancialStore {
@@ -21,71 +22,67 @@ interface FinancialStore {
   setXrpAhorro: (amount: number) => void;
   setDolarAhorro: (amount: number) => void;
   setNewAhorro: (ahorro: Ahorros) => void;
+  setNewTransaction: (transaction: Ahorros) => void;
 }
 
-export const useStoreFinancial = create<FinancialStore>((set) => ({
-  totalAhorros: 0,
-  activos: [],
-  transactions: [],
+export const useStoreFinancial = create<FinancialStore>()(
+  persist(
+    (set) => ({
+      totalAhorros: 0,
+      activos: [],
+      transactions: [],
+      dolar: 200,
+      totalCriptos: 0,
+      acciones: 0,
+      bitcoin: 0,
+      ethreum: 0,
+      usdt: 0,
+      solana: 0,
+      xrp: 0,
+      otros: [],
 
-  dolar: 200,
-  totalCriptos: 0,
-  acciones: 0,
-  bitcoin: 0,
-  ethreum: 0,
-  usdt: 0,
-  solana: 0,
-  xrp: 0,
+      setEthreumAhorro: (amount) =>
+        set((state) => ({ ethreum: state.ethreum + amount })),
 
-  otros: [],
+      setSolanaAhorro: (amount) =>
+        set((state) => ({ solana: state.solana + amount })),
 
-  setEthreumAhorro: (amount: number) =>
-    set((state) => ({
-      ethreum: state.ethreum + amount,
-    })),
+      setUsdtAhorro: (amount) =>
+        set((state) => ({ usdt: state.usdt + amount })),
 
-  setSolanaAhorro: (amount: number) =>
-    set((state) => ({
-      solana: state.solana + amount,
-    })),
+      setXrpAhorro: (amount) => set((state) => ({ xrp: state.xrp + amount })),
 
-  setUsdtAhorro: (amount: number) =>
-    set((state) => ({
-      usdt: state.usdt + amount,
-    })),
+      setBitcoinAhorro: (amount) =>
+        set((state) => ({ bitcoin: state.bitcoin + amount })),
 
-  setXrpAhorro: (amount: number) =>
-    set((state) => ({
-      xrp: state.xrp + amount,
-    })),
+      setDolarAhorro: (amount) =>
+        set((state) => ({ dolar: state.dolar + amount })),
 
-  setBitcoinAhorro: (amount: number) =>
-    set((state) => ({
-      bitcoin: state.bitcoin + amount,
-    })),
+      setNewAhorro: (ahorro) =>
+        set((state) => {
+          const index = state.activos.findIndex(
+            (a) => a.currency === ahorro.currency
+          );
 
-  setNewAhorro: (ahorro: Ahorros) =>
-    set((state) => {
-      // Buscar si ya existe un activo con el mismo currency
-      const index = state.activos.findIndex(
-        (a) => a.currency === ahorro.currency
-      );
+          if (index !== -1) {
+            const updatedActivos = [...state.activos];
+            updatedActivos[index] = {
+              ...updatedActivos[index],
+              amount: updatedActivos[index].amount + ahorro.amount,
+            };
+            return { activos: updatedActivos };
+          } else {
+            return { activos: [...state.activos, ahorro] };
+          }
+        }),
 
-      if (index !== -1) {
-        // Si existe, crear un nuevo array con la suma de amounts en ese índice
-        const updatedActivos = [...state.activos];
-        updatedActivos[index] = {
-          ...updatedActivos[index],
-          amount: updatedActivos[index].amount + ahorro.amount,
-        };
-        return { activos: updatedActivos };
-      } else {
-        // Si no existe, agregar normalmente
-        return { activos: [...state.activos, ahorro] };
-      }
+      setNewTransaction: (transaction) =>
+        set((state) => ({
+          transactions: [...state.transactions, transaction],
+        })),
     }),
-  setDolarAhorro: (amount: number) =>
-    set((state) => ({
-      dolar: state.dolar + amount,
-    })),
-}));
+    {
+      name: "financial-storage", // nombre en localStorage
+    }
+  )
+);

@@ -12,7 +12,7 @@ export const CardsBalance = ({ total, totalUSD }: CardsBalance) => {
       <Card className="bg-gradient-to-br from-teal-500 to-teal-600 text-white">
         <CardContent className="p-6">
           <div className="flex items-center justify-between">
-            <div>
+            <div className="flex flex-col gap-2">
               <p className="text-teal-100 text-sm">Valor Total</p>
               <p className="text-3xl font-bold">{total}</p>
             </div>
@@ -26,9 +26,9 @@ export const CardsBalance = ({ total, totalUSD }: CardsBalance) => {
       <Card>
         <CardContent className="p-6">
           <div className="flex items-center justify-between">
-            <div>
+            <div className="flex flex-col gap-2">
               <p className="text-gray-600 text-sm">En Pesos Argentinos</p>
-              <p className="text-2xl font-bold text-blue-600">{total}</p>
+              <p className="text-2xl font-semibold">{total}</p>
             </div>
             <div className="text-2xl">🇦🇷</div>
           </div>
@@ -38,7 +38,7 @@ export const CardsBalance = ({ total, totalUSD }: CardsBalance) => {
       <Card>
         <CardContent className="p-6">
           <div className="flex items-center justify-between">
-            <div>
+            <div className="flex flex-col gap-2">
               <p className="text-gray-600 text-sm">En Dólares</p>
               <p className="text-2xl font-bold text-green-600">US {totalUSD}</p>
             </div>

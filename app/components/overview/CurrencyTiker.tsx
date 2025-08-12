@@ -25,7 +25,7 @@ export const CurrencyTicker = ({
         )}
       >
         <CardContent className="p-4">
-          <p className="text-center">Cargando datos del dólar...</p>
+          <p className="text-center">Cargando datos...</p>
         </CardContent>
       </Card>
     );
