@@ -1,6 +1,10 @@
 import { useMoneyCategory } from "@/app/hooks/useMoneyCategory";
 
-export const Categories = () => {
+interface CategoriesProps {
+  hideBalances: boolean;
+}
+
+export const Categories = ({ hideBalances }: CategoriesProps) => {
   const { options } = useMoneyCategory();
 
   return (
@@ -9,7 +13,9 @@ export const Categories = () => {
         {options.map((option) => (
           <div key={option.id} className="flex justify-between">
             <span className="text-sm text-gray-600"> {option.label}</span>
-            <span className="text-sm font-medium">$ {option.total}</span>
+            <span className="text-sm font-medium">
+              $ {hideBalances ? "••••••" : option.total}
+            </span>
           </div>
         ))}
       </div>

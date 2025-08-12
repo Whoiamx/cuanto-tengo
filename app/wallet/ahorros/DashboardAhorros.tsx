@@ -24,6 +24,7 @@ export const DashboardAhorros = () => {
   const amountNumber = Number(total || 0);
   const ventaNumber = Number(data?.venta || 1);
   let totalUSD = Number((amountNumber / ventaNumber).toFixed(2));
+  const usd = useStoreFinancial((state) => state.dolares);
 
   return (
     <div className="space-y-8">
@@ -54,7 +55,7 @@ export const DashboardAhorros = () => {
       </div>
 
       {/* Resumen Total */}
-      <CardsBalance total={total} totalUSD={totalUSD} />
+      <CardsBalance totalUSD={usd} hideBalances={hideBalances} />
 
       {/* Lista de Ahorros */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

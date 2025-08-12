@@ -9,7 +9,6 @@ export const CardAhorros = ({
   type,
   name,
   amount,
-  price,
   symbol,
   hide,
   valueInUSD,

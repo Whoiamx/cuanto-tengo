@@ -1,6 +1,7 @@
+"use client";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 import { Categories } from "./Categories";
@@ -14,6 +15,7 @@ import { useStoreFinancial } from "@/app/store/store";
 
 import { ModalActivos } from "../ModalActivos";
 import { CardsBalance } from "../CardsBalance";
+import { useState } from "react";
 
 export const Overview = () => {
   const { isLoading, data, error, refetch } = useDolarCurrency();
@@ -26,6 +28,7 @@ export const Overview = () => {
   );
 
   const usd = useStoreFinancial((state) => state.dolares);
+  const [hideBalances, setHideBalances] = useState(false);
 
   const totalFormatted = total.toLocaleString("es-AR", {
     minimumFractionDigits: 2,
@@ -37,7 +40,23 @@ export const Overview = () => {
       <div>
         <h1 className="text-3xl font-bold text-gray-900">Overview</h1>
       </div>
-      <CardsBalance total={total} totalUSD={usd} />
+      <div className="flex justify-end items-center gap-3">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => setHideBalances(!hideBalances)}
+        >
+          {hideBalances ? (
+            <Eye className="w-4 h-4" />
+          ) : (
+            <EyeOff className="w-4 h-4" />
+          )}
+          {hideBalances ? "Mostrar" : "Ocultar"}
+        </Button>
+
+        <ModalActivos />
+      </div>
+      <CardsBalance hideBalances={hideBalances} totalUSD={usd} />
 
       <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-2 gap-8">
         {/* Pots Section */}
@@ -55,13 +74,14 @@ export const Overview = () => {
               <div className="flex gap-2 items-center space-x-4">
                 <div className="flex flex-col gap-2">
                   <p className="text-sm text-gray-600">Total Ahorrado</p>
-                  <p className="text-2xl font-bold">$ {totalFormatted}</p>
+                  <p className="text-2xl font-bold">
+                    $ {hideBalances ? "••••••" : totalFormatted}
+                  </p>
                 </div>
               </div>
               <div className="flex flex-col pb-2">
-                <Categories />
+                <Categories hideBalances={hideBalances} />
               </div>
-              <ModalActivos />
             </CardContent>
           </Card>
 

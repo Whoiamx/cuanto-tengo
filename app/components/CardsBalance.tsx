@@ -4,11 +4,11 @@ import { useDolarCurrency } from "../hooks";
 import { useMemo } from "react";
 
 interface CardsBalance {
-  total: number;
   totalUSD: number;
+  hideBalances: boolean;
 }
 
-export const CardsBalance = ({ total, totalUSD }: CardsBalance) => {
+export const CardsBalance = ({ totalUSD, hideBalances }: CardsBalance) => {
   const { data } = useDolarCurrency();
 
   const totalInUSD = useMemo(() => {
@@ -26,7 +26,9 @@ export const CardsBalance = ({ total, totalUSD }: CardsBalance) => {
           <div className="flex items-center justify-between">
             <div className="flex flex-col gap-2">
               <p className="text-teal-100 text-sm">Valor Total</p>
-              <p className="text-3xl font-bold">{totalInUSD}</p>
+              <p className="text-3xl font-bold">
+                {hideBalances ? "••••••" : totalInUSD}
+              </p>
             </div>
             <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
               <DollarSign className="w-6 h-6" />
@@ -40,7 +42,9 @@ export const CardsBalance = ({ total, totalUSD }: CardsBalance) => {
           <div className="flex items-center justify-between">
             <div className="flex flex-col gap-2">
               <p className="text-gray-600 text-sm">En Pesos Argentinos</p>
-              <p className="text-2xl font-semibold">{totalInUSD}</p>
+              <p className="text-2xl font-semibold">
+                {hideBalances ? "••••••" : totalInUSD}
+              </p>
             </div>
             <div className="text-2xl">🇦🇷</div>
           </div>
@@ -52,7 +56,9 @@ export const CardsBalance = ({ total, totalUSD }: CardsBalance) => {
           <div className="flex items-center justify-between">
             <div className="flex flex-col gap-2">
               <p className="text-gray-600 text-sm">En Dólares</p>
-              <p className="text-2xl font-bold text-green-600">US {totalUSD}</p>
+              <p className="text-2xl font-bold text-green-600">
+                US {hideBalances ? "••••••" : totalUSD}
+              </p>
             </div>
             <div className="text-2xl">🇺🇸</div>
           </div>
