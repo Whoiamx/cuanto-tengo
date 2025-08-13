@@ -31,6 +31,8 @@ export const Overview = () => {
   const [hideBalances, setHideBalances] = useState(false);
 
   const valueInUSD = useStoreFinancial((state) => state.totalAhorrosEnUSD);
+  const activesInWallet = useStoreFinancial((state) => state.activos);
+  console.log(activesInWallet);
 
   const totalInUSD = useMemo(() => {
     const valor = Number(valueInUSD) * (Number(data?.venta) || 1);
@@ -60,7 +62,7 @@ export const Overview = () => {
         </Button>
 
         <ModalActivos />
-        <ModalVentas />
+        <ModalVentas actives={activesInWallet} />
       </div>
       <CardsBalance hideBalances={hideBalances} />
 

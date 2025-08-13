@@ -19,12 +19,20 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Minus, AlertTriangle, Calculator } from "lucide-react";
+import {
+  Minus,
+  AlertTriangle,
+  Calculator,
+  Icon,
+  Bitcoin,
+  DollarSign,
+  TrendingUp,
+  Landmark,
+} from "lucide-react";
 import { cn, getAssetColor } from "@/lib/utils";
 import { Ahorros } from "../interfaces/app-financial";
+import { SiEthereum, SiRipple, SiSolana, SiTether } from "react-icons/si";
 
 interface WithdrawFormData {
   assetId: string;
@@ -52,7 +60,6 @@ const withdrawReasons = [
 export const ModalVentas = ({
   trigger,
   actives,
-  onWithdraw,
 }: WithdrawSavingsModalProps) => {
   const [open, setOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -101,8 +108,6 @@ export const ModalVentas = ({
     setOpen(false);
   };
 
-  //   const withdrawValue = calculateWithdrawValue();
-
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
@@ -138,27 +143,60 @@ export const ModalVentas = ({
                 <SelectValue placeholder="Elige el activo a descontar" />
               </SelectTrigger>
               <SelectContent>
-                {actives?.map((asset, index) => {
+                {actives?.map((active) => {
+                  const getAssetIcon = () => {
+                    switch (active.currency) {
+                      case "bitcoin":
+                        return <Bitcoin />;
+
+                      case "ARS":
+                        return <DollarSign />;
+
+                      case "accion":
+                        return <TrendingUp />;
+
+                      case "other":
+                        return <Landmark />;
+
+                      case "ethereum":
+                        return <SiEthereum size={20} />;
+                      case "usdt":
+                        return <SiTether size={20} />;
+                      case "solana":
+                        return <SiSolana size={20} />;
+                      case "xrp":
+                        return <SiRipple size={20} />;
+                      default:
+                        return null;
+                    }
+                  };
+
                   return (
-                    <SelectItem key={asset.id} value={asset.id}>
+                    <SelectItem
+                      key={active.amount}
+                      value={String(active.currency)}
+                    >
                       <div className="flex items-center space-x-3">
                         <div
                           className={cn(
                             "w-8 h-8 rounded-full flex items-center justify-center",
-                            getAssetColor(asset.type)
+                            getAssetColor(active.type)
                           )}
-                        ></div>
+                        >
+                          {getAssetIcon()}
+                        </div>
                         <div>
-                          <span className="font-medium">{asset.name}</span>
+                          <span className="font-medium">
+                            {active.currency?.toUpperCase() === "ARS"
+                              ? "DOLAR"
+                              : active.currency?.toUpperCase()}
+                          </span>
                           <span className="text-sm text-gray-500 ml-2">
                             Disponible:{" "}
-                            {/* {asset.availableAmount.toLocaleString("es-AR", {
-                              minimumFractionDigits:
-                                asset.type === "crypto" ? 4 : 0,
-                              maximumFractionDigits:
-                                asset.type === "crypto" ? 4 : 0,
+                            {active.amount.toLocaleString("es-AR", {
+                              minimumFractionDigits: 0,
+                              maximumFractionDigits: 0,
                             })}{" "}
-                            {asset.symbol} */}
                           </span>
                         </div>
                       </div>
@@ -170,68 +208,6 @@ export const ModalVentas = ({
           </div>
 
           {/* Información del Activo Seleccionado */}
-
-          <Card className="bg-gray-50 border-gray-200">
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center space-x-3">
-                  <div
-                    className={cn(
-                      "w-10 h-10 rounded-full flex items-center justify-center"
-                      //   getAssetColor(selectedAsset.type)
-                    )}
-                  >
-                    {/* {typeof getAssetIcon(
-                        selectedAsset.type,
-                        selectedAsset.symbol
-                      ) === "string" ? (
-                        <span>
-                          {getAssetIcon(
-                            selectedAsset.type,
-                            selectedAsset.symbol
-                          )}
-                        </span>
-                      ) : (
-                        React.createElement(
-                          getAssetIcon(
-                            selectedAsset.type,
-                            selectedAsset.symbol
-                          ) as any,
-                          {
-                            className: "w-5 h-5",
-                          }
-                        )
-                      )} */}
-                  </div>
-                  <div>
-                    {/* <h4 className="font-semibold">{selectedAsset.name}</h4>
-                    <Badge variant="secondary">{selectedAsset.symbol}</Badge> */}
-                  </div>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4 text-sm">
-                <div>
-                  <p className="text-gray-600">Cantidad Disponible</p>
-                  <p className="font-semibold">
-                    {/* {selectedAsset.availableAmount.toLocaleString("es-AR", {
-                        minimumFractionDigits:
-                          selectedAsset.type === "crypto" ? 4 : 0,
-                        maximumFractionDigits:
-                          selectedAsset.type === "crypto" ? 4 : 0,
-                      })}{" "}
-                      {selectedAsset.symbol} */}
-                  </p>
-                </div>
-                <div>
-                  <p className="text-gray-600">Valor Total</p>
-                  <p className="font-semibold text-green-600">
-                    {/* {formatCurrency(selectedAsset.totalValueUSD, "USD")} */}
-                  </p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
 
           {/* Cantidad a Descontar */}
           <div className="space-y-2">

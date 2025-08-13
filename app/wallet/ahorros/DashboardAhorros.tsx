@@ -39,7 +39,7 @@ export const DashboardAhorros = () => {
           </Button>
 
           <ModalActivos />
-          <ModalVentas />
+          <ModalVentas actives={activesInWallet} />
         </div>
       </div>
 
