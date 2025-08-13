@@ -51,12 +51,6 @@ const assetTypes = [
     icon: DollarSign,
     color: "bg-gray-100 text-gray-600",
   },
-  {
-    value: "other",
-    label: "Otros",
-    icon: Wallet,
-    color: "bg-teal-100 text-teal-600",
-  },
 ];
 
 const currencies = [{ value: "ARS", label: "Peso Argentino (ARS)" }];
