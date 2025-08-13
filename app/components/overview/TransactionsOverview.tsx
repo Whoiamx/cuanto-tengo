@@ -27,6 +27,8 @@ export const TransactionsOverview = () => {
                   <i>
                     {trans.name?.length
                       ? trans.name.toUpperCase()
+                      : trans.currency === "ARS"
+                      ? "DOLAR"
                       : trans.currency?.toUpperCase()}
                   </i>
                 </p>

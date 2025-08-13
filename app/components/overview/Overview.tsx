@@ -16,7 +16,6 @@ import { useStoreFinancial } from "@/app/store/store";
 import { ModalActivos } from "../ModalActivos";
 import { CardsBalance } from "../CardsBalance";
 import { useMemo, useState } from "react";
-import { ModalVentas } from "../ModalVentas";
 
 export const Overview = () => {
   const { isLoading, data, error, refetch } = useDolarCurrency();
@@ -24,9 +23,6 @@ export const Overview = () => {
   const ethData = useCriptoCurrency("ETH");
   const usdtData = useCriptoCurrency("USDT");
   const solanaData = useCriptoCurrency("SOL");
-  const total = useStoreFinancial(
-    (state) => state.dolares + state.totalCriptos + state.acciones
-  );
 
   const [hideBalances, setHideBalances] = useState(false);
 
@@ -62,7 +58,6 @@ export const Overview = () => {
         </Button>
 
         <ModalActivos />
-        <ModalVentas actives={activesInWallet} />
       </div>
       <CardsBalance hideBalances={hideBalances} />
 

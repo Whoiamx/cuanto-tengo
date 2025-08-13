@@ -20,28 +20,19 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+
 import {
   Search,
   Download,
   TrendingUp,
-  TrendingDown,
   Bitcoin,
   DollarSign,
   Building,
   Landmark,
-  MoreHorizontal,
-  Calendar,
   ArrowUpDown,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useStoreFinancial } from "@/app/store/store";
-import { ModalActivos } from "@/app/components/ModalActivos";
 
 export const TransactionsDashboard = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -150,9 +141,6 @@ export const TransactionsDashboard = () => {
           <h1 className="text-3xl font-bold text-gray-900">
             Mis Transacciones
           </h1>
-          <p className="text-gray-600">
-            Historial completo de compras y ventas de activos
-          </p>
         </div>
         <div className="flex items-center gap-3">
           <Button variant="outline" size="sm">
@@ -160,55 +148,6 @@ export const TransactionsDashboard = () => {
             Exportar
           </Button>
         </div>
-      </div>
-
-      {/* Resumen */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-gray-600 text-sm">Total Compras</p>
-                <p className="text-2xl font-bold text-green-600">
-                  {formatCurrency(totalBought, "USD")}
-                </p>
-              </div>
-              <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
-                <TrendingUp className="w-5 h-5 text-green-600" />
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-gray-600 text-sm">Total Ventas</p>
-                <p className="text-2xl font-bold text-red-600">0</p>
-              </div>
-              <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
-                <TrendingDown className="w-5 h-5 text-red-600" />
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-gray-600 text-sm">Transacciones</p>
-                <p className="text-2xl font-bold text-gray-900">
-                  {activesInWallet.length}
-                </p>
-              </div>
-              <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center">
-                <Calendar className="w-5 h-5 text-gray-600" />
-              </div>
-            </div>
-          </CardContent>
-        </Card>
       </div>
 
       {/* Filtros y Búsqueda */}
@@ -247,17 +186,8 @@ export const TransactionsDashboard = () => {
                 <SelectItem value="crypto">Criptomonedas</SelectItem>
                 <SelectItem value="acciones">Acciones</SelectItem>
                 <SelectItem value="dolar">Dolar</SelectItem>
-                <SelectItem value="other">Bonos</SelectItem>
               </SelectContent>
             </Select>
-
-            <Button
-              variant="outline"
-              onClick={() => setSortOrder(sortOrder === "asc" ? "desc" : "asc")}
-            >
-              <ArrowUpDown className="w-4 h-4 mr-2" />
-              {sortBy === "date" ? "Fecha" : "Monto"}
-            </Button>
           </div>
         </CardContent>
       </Card>
@@ -307,10 +237,9 @@ export const TransactionsDashboard = () => {
                             <p className="font-semibold">
                               {transaction.name?.length
                                 ? transaction.name.toUpperCase()
+                                : transaction.currency === "ARS"
+                                ? "DOLAR"
                                 : transaction.currency?.toUpperCase()}
-                            </p>
-                            <p className="text-sm text-gray-500">
-                              {transaction.symbol}
                             </p>
                           </div>
                         </div>

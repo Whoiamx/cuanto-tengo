@@ -7,7 +7,6 @@ import { ModalActivos } from "@/app/components/ModalActivos";
 import { CardAhorros } from "./components/CardAhorros";
 import { useStoreFinancial } from "@/app/store/store";
 import { CardsBalance } from "@/app/components/CardsBalance";
-import { ModalVentas } from "@/app/components/ModalVentas";
 
 export const DashboardAhorros = () => {
   const [hideBalances, setHideBalances] = useState(false);
@@ -39,7 +38,6 @@ export const DashboardAhorros = () => {
           </Button>
 
           <ModalActivos />
-          <ModalVentas actives={activesInWallet} />
         </div>
       </div>
 
